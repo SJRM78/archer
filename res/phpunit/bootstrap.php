@@ -16,7 +16,9 @@ if (is_callable('Eloquent\Asplode\Asplode::install')) {
 }
 
 // Setup Phake/PHPUnit integration ...
-Phake::setClient(Phake::CLIENT_PHPUNIT);
+if (class_exists('Phake')) {
+    Phake::setClient(Phake::CLIENT_PHPUNIT);
+}
 
 // Add an autoloader for test fixtures, if required ...
 $projectTestFixturePath = ARCHER_ROOT_PATH . '/test/src';
