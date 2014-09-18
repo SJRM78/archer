@@ -70,7 +70,7 @@ class TravisConfigManager
      */
     public function publicKeyCache($packageRoot)
     {
-        $publicKeyPath = sprintf('%s/.travis.key', $packageRoot);
+        $publicKeyPath = sprintf('%s/.archer/travis.key', $packageRoot);
         if ($this->fileSystem()->fileExists($publicKeyPath)) {
             return $this->fileSystem()->read($publicKeyPath);
         }
@@ -86,7 +86,7 @@ class TravisConfigManager
      */
     public function setPublicKeyCache($packageRoot, $publicKey)
     {
-        $publicKeyPath = sprintf('%s/.travis.key', $packageRoot);
+        $publicKeyPath = sprintf('%s/.archer/travis.key', $packageRoot);
 
         // Key is the same as existing one, do nothing ...
         if ($this->publicKeyCache($packageRoot) === $publicKey) {
@@ -111,7 +111,7 @@ class TravisConfigManager
      */
     public function secureEnvironmentCache($packageRoot)
     {
-        $envPath = sprintf('%s/.travis.env', $packageRoot);
+        $envPath = sprintf('%s/.archer/travis.env', $packageRoot);
         if ($this->fileSystem()->fileExists($envPath)) {
             return $this->fileSystem()->read($envPath);
         }
@@ -127,7 +127,7 @@ class TravisConfigManager
      */
     public function setSecureEnvironmentCache($packageRoot, $secureEnvironment)
     {
-        $envPath = sprintf('%s/.travis.env', $packageRoot);
+        $envPath = sprintf('%s/.archer/travis.env', $packageRoot);
 
         // Environment is the same as existing one, do nothing ...
         if ($this->secureEnvironmentCache($packageRoot) === $secureEnvironment) {
@@ -154,7 +154,7 @@ class TravisConfigManager
     public function updateConfig($archerPackageRoot, $packageRoot)
     {
         $source = sprintf('%s/res/travis/travis.install.php', $archerPackageRoot);
-        $target = sprintf('%s/.travis.install', $packageRoot);
+        $target = sprintf('%s/.archer/travis.install', $packageRoot);
         $this->fileSystem()->copy($source, $target);
         $this->fileSystem()->chmod($target, 0755);
 
