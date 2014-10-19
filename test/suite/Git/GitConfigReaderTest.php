@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\Git;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 
 class GitConfigReaderTest extends PHPUnit_Framework_TestCase
@@ -10,8 +10,8 @@ class GitConfigReaderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->process = Phake::mock('Symfony\Component\Process\Process');
-        $this->processFactory = Phake::mock(
+        $this->process = Phunky::mock('Symfony\Component\Process\Process');
+        $this->processFactory = Phunky::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
         $this->reader = new GitConfigReader(
@@ -19,12 +19,12 @@ class GitConfigReaderTest extends PHPUnit_Framework_TestCase
             $this->processFactory
         );
 
-        Phake::when($this->processFactory)
-            ->create(Phake::anyParameters())
+        Phunky::when($this->processFactory)
+            ->create(Phunky::anyParameters())
             ->thenReturn($this->process)
         ;
-        Phake::when($this->process)
-            ->isSuccessful(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->isSuccessful(Phunky::anyParameters())
             ->thenReturn(true)
         ;
 
@@ -49,8 +49,8 @@ branch.3.0.0.remote=origin
 branch.3.0.0.merge=refs/heads/3.0.0
 
 EOD;
-        Phake::when($this->process)
-            ->getOutput(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->getOutput(Phunky::anyParameters())
             ->thenReturn($configuration)
         ;
     }
@@ -84,8 +84,8 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->process)
-            ->getOutput(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->getOutput(Phunky::anyParameters())
             ->thenReturn($configuration)
         ;
 
@@ -111,8 +111,8 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->process)
-            ->getOutput(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->getOutput(Phunky::anyParameters())
             ->thenReturn($configuration)
         ;
 
@@ -134,8 +134,8 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->process)
-            ->getOutput(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->getOutput(Phunky::anyParameters())
             ->thenReturn($configuration)
         ;
 
@@ -148,12 +148,12 @@ EOD;
 
     public function testParseFailure()
     {
-        Phake::when($this->process)
-            ->isSuccessful(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->isSuccessful(Phunky::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->process)
-            ->getErrorOutput(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->getErrorOutput(Phunky::anyParameters())
             ->thenReturn('Bar.')
         ;
 

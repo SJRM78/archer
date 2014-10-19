@@ -1,8 +1,8 @@
 <?php
 namespace Icecave\Archer\Console;
 
+use Eloquent\Phony\Phpunit as x;
 use Icecave\Archer\Support\Isolator;
-use Phake;
 use PHPUnit_Framework_TestCase;
 use ReflectionObject;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -11,18 +11,11 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
-
         Command\Internal\AbstractInternalCommand::setIsEnabled(null);
 
-        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->application = Phake::partialMock(
-            __NAMESPACE__ . '\Application',
-            'foo',
-            $this->fileSystem,
-            $this->isolator
-        );
+        $this->fileSystem = x\mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->isolator = x\mock('Icecave\Archer\Support\Isolator');
+        $this->application = new Application('foo', $this->fileSystem->mock(), $this->isolator->mock());
         $this->reflector = new ReflectionObject($this->application);
     }
 
@@ -32,19 +25,14 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $this->assertSame('1.3.2', $this->application->getVersion());
 
         $this->assertSame('foo', $this->application->packageRoot());
-        $this->assertSame($this->fileSystem, $this->application->fileSystem());
+        $this->assertSame($this->fileSystem->mock(), $this->application->fileSystem());
     }
 
     public function testConstructorDefaults()
     {
-        $this->application = new Application(
-            'foo'
-        );
+        $this->application = new Application('foo');
 
-        $this->assertInstanceOf(
-            'Icecave\Archer\FileSystem\FileSystem',
-            $this->application->fileSystem()
-        );
+        $this->assertInstanceOf('Icecave\Archer\FileSystem\FileSystem', $this->application->fileSystem());
     }
 
     public function testEnabledCommands()
@@ -64,16 +52,10 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     public function testEnabledCommandsArcher()
     {
         Command\Internal\AbstractInternalCommand::setIsEnabled(null);
-        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        Phake::when($this->fileSystem)
-            ->fileExists(Phake::anyParameters())
-            ->thenReturn(true)
-        ;
-        Phake::when($this->fileSystem)
-            ->read(Phake::anyParameters())
-            ->thenReturn('{"name": "icecave/archer"}')
-        ;
-        $this->application = new Application('foo', $this->fileSystem, $this->isolator);
+        $this->fileSystem = x\mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->fileSystem->fileExists->returns(true);
+        $this->fileSystem->read->returns('{"name": "icecave/archer"}');
+        $this->application = new Application('foo', $this->fileSystem->mock(), $this->isolator->mock());
         $expected = array(
             'help',
             'list',
@@ -84,20 +66,18 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'internal:update-binaries',
         );
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('foo/composer.json'),
-            Phake::verify($this->fileSystem)->read('foo/composer.json')
+        x\inOrder(
+            $this->fileSystem->fileExists->calledWith('foo/composer.json'),
+            $this->fileSystem->read->calledWith('foo/composer.json')
         );
         $this->assertSame($expected, array_keys($this->application->all()));
     }
 
     public function testEnabledCommandsTravis()
     {
-        Phake::when($this->isolator)
-            ->getenv('TRAVIS')
-            ->thenReturn('true');
+        $this->isolator->getenv('TRAVIS')->returns('true');
 
-        $this->application = new Application('foo', $this->fileSystem, $this->isolator);
+        $this->application = new Application('foo', $this->fileSystem->mock(), $this->isolator->mock());
         $expected = array(
             'help',
             'list',
@@ -113,31 +93,30 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     public function testDoRun()
     {
-        $commandName = uniqid();
-        Phake::when($this->application)
-            ->defaultCommandName(Phake::anyParameters())
-            ->thenReturn($commandName)
-        ;
-        Phake::when($this->application)
-            ->rawArguments(Phake::anyParameters())
-            ->thenReturn(array())
-        ;
-        $command = Phake::partialMock(
-            'Symfony\Component\Console\Command\Command',
-            $commandName
+        $this->application = x\partialMock(
+            'Icecave\Archer\Console\Application',
+            array('foo', $this->fileSystem->mock(), $this->isolator->mock())
         );
-        $this->application->add($command);
-        $this->application->setAutoExit(false);
+
+        $commandName = uniqid();
+        $this->application->defaultCommandName->returns($commandName);
+        $this->application->rawArguments->returns(array());
+        $command = x\partialMock(
+            'Symfony\Component\Console\Command\Command',
+            array($commandName)
+        );
+        $this->application->mock()->add($command->mock());
+        $this->application->mock()->setAutoExit(false);
         $input = new ArrayInput(array());
-        $output = Phake::partialMock('Symfony\Component\Console\Output\NullOutput');
-        $this->application->run($input, $output);
+        $output = x\partialMock('Symfony\Component\Console\Output\NullOutput');
+        $this->application->mock()->run($input, $output->mock());
         $expectedInput = new ArrayInput(array('command' => $commandName));
 
-        Phake::inOrder(
-            Phake::verify($this->application)->defaultCommandName(),
-            Phake::verify($command)->run(Phake::capture($actualInput), $output)
+        x\inOrder(
+            $this->application->defaultCommandName->called(),
+            $command->run->calledWith('~', $output->mock())
         );
-        $this->assertSame($commandName, $actualInput->getFirstArgument());
+        $this->assertSame($commandName, $command->run->argument()->getFirstArgument());
     }
 
     public function testRawArguments()

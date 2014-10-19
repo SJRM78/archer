@@ -34,8 +34,8 @@ class CoverallsClient
             return false;
         }
 
-        $this->isolator->json_decode($response);
-        if (JSON_ERROR_NONE !== $this->isolator->json_last_error()) {
+        json_decode($response);
+        if (JSON_ERROR_NONE !== json_last_error()) {
             return false;
         }
 

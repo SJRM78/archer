@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\Console\Command;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use ReflectionObject;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,28 +18,28 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->fileSystem = Phake::mock(
+        $this->fileSystem = Phunky::mock(
             'Icecave\Archer\FileSystem\FileSystem'
         );
-        $this->phpFinder = Phake::mock(
+        $this->phpFinder = Phunky::mock(
             'Symfony\Component\Process\PhpExecutableFinder'
         );
-        $this->phpunitFinder = Phake::mock(
+        $this->phpunitFinder = Phunky::mock(
             'Icecave\Archer\Process\PHPUnitExecutableFinder'
         );
-        $this->phpConfigurationReader = Phake::mock(
+        $this->phpConfigurationReader = Phunky::mock(
             'Icecave\Archer\Configuration\PHPConfigurationReader'
         );
-        $this->configurationFileFinder = Phake::mock(
+        $this->configurationFileFinder = Phunky::mock(
             'Icecave\Archer\Configuration\ConfigurationFileFinder'
         );
-        $this->processFactory = Phake::mock(
+        $this->processFactory = Phunky::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->launcher = Phake::mock(
+        $this->launcher = Phunky::mock(
             'Icecave\Archer\Support\Liftoff\Launcher'
         );
-        $this->command = Phake::partialMock(
+        $this->command = Phunky::partialMock(
             __NAMESPACE__ . '\CoverageCommand',
             $this->fileSystem,
             $this->phpFinder,
@@ -50,44 +50,44 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
             $this->launcher
         );
 
-        $this->application = Phake::mock('Icecave\Archer\Console\Application');
-        $this->process = Phake::mock('Symfony\Component\Process\Process');
+        $this->application = Phunky::mock('Icecave\Archer\Console\Application');
+        $this->process = Phunky::mock('Symfony\Component\Process\Process');
 
-        Phake::when($this->command)
-            ->getApplication(Phake::anyParameters())
+        Phunky::when($this->command)
+            ->getApplication(Phunky::anyParameters())
             ->thenReturn($this->application)
         ;
 
-        Phake::when($this->application)
-            ->rawArguments(Phake::anyParameters())
+        Phunky::when($this->application)
+            ->rawArguments(Phunky::anyParameters())
             ->thenReturn(array('foo', 'bar'))
         ;
 
-        Phake::when($this->phpConfigurationReader)
-            ->read(Phake::anyParameters())
+        Phunky::when($this->phpConfigurationReader)
+            ->read(Phunky::anyParameters())
             ->thenReturn(array(
                 'baz' => 'qux',
                 'doom' => 'splat',
             ))
         ;
 
-        Phake::when($this->configurationFileFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->configurationFileFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('/path/to/phpunit.xml')
         ;
 
-        Phake::when($this->processFactory)
-            ->createFromArray(Phake::anyParameters())
+        Phunky::when($this->processFactory)
+            ->createFromArray(Phunky::anyParameters())
             ->thenReturn($this->process)
         ;
 
-        Phake::when($this->phpFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->phpFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('/path/to/php')
         ;
 
-        Phake::when($this->phpunitFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->phpunitFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('/path/to/phpunit')
         ;
 
@@ -95,15 +95,15 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
         $this->executeMethod = $this->reflector->getMethod('execute');
         $this->executeMethod->setAccessible(true);
 
-        $this->input = Phake::mock('Symfony\Component\Console\Input\InputInterface');
+        $this->input = Phunky::mock('Symfony\Component\Console\Input\InputInterface');
 
         // used for closures
         $that = $this;
 
         $this->stdErr = '';
-        $this->errorOutput = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
-        Phake::when($this->errorOutput)
-            ->write(Phake::anyParameters())
+        $this->errorOutput = Phunky::mock('Symfony\Component\Console\Output\OutputInterface');
+        Phunky::when($this->errorOutput)
+            ->write(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
                     $that->stdErr .= $data;
@@ -112,30 +112,30 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
         ;
 
         $this->stdOut = '';
-        $this->output = Phake::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
-        Phake::when($this->output)
-            ->write(Phake::anyParameters())
+        $this->output = Phunky::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
+        Phunky::when($this->output)
+            ->write(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
                     $that->stdOut .= $data;
                 }
             )
         ;
-        Phake::when($this->output)
-            ->writeln(Phake::anyParameters())
+        Phunky::when($this->output)
+            ->writeln(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
                     $that->stdOut .= $data . "\n";
                 }
             )
         ;
-        Phake::when($this->output)
-            ->getErrorOutput(Phake::anyParameters())
+        Phunky::when($this->output)
+            ->getErrorOutput(Phunky::anyParameters())
             ->thenReturn($this->errorOutput)
         ;
 
-        Phake::when($this->process)
-            ->run(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->run(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($callback) {
                     $callback('out', "out\nout\n");
@@ -149,7 +149,7 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        Phake::verify($this->command)->ignoreValidationErrors();
+        Phunky::verify($this->command)->ignoreValidationErrors();
 
         $this->assertSame($this->fileSystem, $this->command->fileSystem());
         $this->assertSame($this->phpFinder, $this->command->phpFinder());
@@ -256,24 +256,24 @@ EOD;
         $this->assertSame(111, $exitCode);
         $this->assertSame($expectedStdout, $this->stdOut);
         $this->assertSame($expectedStderr, $this->stdErr);
-        Phake::inOrder(
-            Phake::verify($this->phpFinder)->find(),
-            Phake::verify($this->phpunitFinder)->find(),
-            Phake::verify($this->phpConfigurationReader)
-                ->read(Phake::capture($actualPhpConfigurationPaths)),
-            Phake::verify($this->configurationFileFinder)->find(
-                Phake::capture($actualPhpunitConfigurationPaths),
+        Phunky::inOrder(
+            Phunky::verify($this->phpFinder)->find(),
+            Phunky::verify($this->phpunitFinder)->find(),
+            Phunky::verify($this->phpConfigurationReader)
+                ->read(Phunky::capture($actualPhpConfigurationPaths)),
+            Phunky::verify($this->configurationFileFinder)->find(
+                Phunky::capture($actualPhpunitConfigurationPaths),
                 './vendor/icecave/archer/res/phpunit/phpunit.coverage.xml'
             ),
-            Phake::verify($this->processFactory)
-                ->createFromArray(Phake::capture($actualArguments)),
-            Phake::verify($this->process)->setTimeout(null),
-            Phake::verify($this->command)->passthru(
+            Phunky::verify($this->processFactory)
+                ->createFromArray(Phunky::capture($actualArguments)),
+            Phunky::verify($this->process)->setTimeout(null),
+            Phunky::verify($this->command)->passthru(
                 $this->identicalTo($this->process),
                 $this->identicalTo($this->output)
             )
         );
-        Phake::verify($this->launcher, Phake::never())->launch(Phake::anyParameters());
+        Phunky::verify($this->launcher, Phunky::never())->launch(Phunky::anyParameters());
         $this->assertSame(array(
             './vendor/icecave/archer/res/php/php.ini',
             './vendor/icecave/archer/res/php/php.coverage.ini',
@@ -301,8 +301,8 @@ EOD;
 
     public function testExecuteWithOpen()
     {
-        Phake::when($this->process)
-            ->run(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->run(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($callback) {
                     $callback('out', "out\nout\n");
@@ -312,7 +312,7 @@ EOD;
                 }
             )
         ;
-        Phake::when($this->input)->getOption('open')->thenReturn(true);
+        Phunky::when($this->input)->getOption('open')->thenReturn(true);
         $exitCode = $this->executeMethod->invoke(
             $this->command,
             $this->input,
@@ -336,23 +336,23 @@ EOD;
         $this->assertSame(0, $exitCode);
         $this->assertSame($expectedStdout, $this->stdOut);
         $this->assertSame($expectedStderr, $this->stdErr);
-        Phake::inOrder(
-            Phake::verify($this->phpFinder)->find(),
-            Phake::verify($this->phpunitFinder)->find(),
-            Phake::verify($this->phpConfigurationReader)
-                ->read(Phake::capture($actualPhpConfigurationPaths)),
-            Phake::verify($this->configurationFileFinder)->find(
-                Phake::capture($actualPhpunitConfigurationPaths),
+        Phunky::inOrder(
+            Phunky::verify($this->phpFinder)->find(),
+            Phunky::verify($this->phpunitFinder)->find(),
+            Phunky::verify($this->phpConfigurationReader)
+                ->read(Phunky::capture($actualPhpConfigurationPaths)),
+            Phunky::verify($this->configurationFileFinder)->find(
+                Phunky::capture($actualPhpunitConfigurationPaths),
                 './vendor/icecave/archer/res/phpunit/phpunit.coverage.xml'
             ),
-            Phake::verify($this->processFactory)
-                ->createFromArray(Phake::capture($actualArguments)),
-            Phake::verify($this->process)->setTimeout(null),
-            Phake::verify($this->command)->passthru(
+            Phunky::verify($this->processFactory)
+                ->createFromArray(Phunky::capture($actualArguments)),
+            Phunky::verify($this->process)->setTimeout(null),
+            Phunky::verify($this->command)->passthru(
                 $this->identicalTo($this->process),
                 $this->identicalTo($this->output)
             ),
-            Phake::verify($this->launcher)->launch('./artifacts/tests/coverage/index.html')
+            Phunky::verify($this->launcher)->launch('./artifacts/tests/coverage/index.html')
         );
         $this->assertSame(array(
             './vendor/icecave/archer/res/php/php.ini',
@@ -381,15 +381,15 @@ EOD;
 
     public function testGenerateArgumentsFiltering()
     {
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->phpConfigurationArguments()
             ->thenReturn(array());
 
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->readPHPConfiguration()
             ->thenReturn(array());
 
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->findPHPUnitConfiguration()
             ->thenReturn('/path/to/config.xml');
 

@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\Console\Command;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,10 +13,10 @@ class DocumentationCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->generator = Phake::mock(
+        $this->generator = Phunky::mock(
             'Icecave\Archer\Documentation\DocumentationGenerator'
         );
-        $this->launcher = Phake::mock(
+        $this->launcher = Phunky::mock(
             'Icecave\Archer\Support\Liftoff\Launcher'
         );
         $this->command = new DocumentationCommand(
@@ -24,7 +24,7 @@ class DocumentationCommandTest extends PHPUnit_Framework_TestCase
             $this->launcher
         );
 
-        $this->output = Phake::mock(
+        $this->output = Phunky::mock(
             'Symfony\Component\Console\Output\OutputInterface'
         );
     }
@@ -74,14 +74,14 @@ class DocumentationCommandTest extends PHPUnit_Framework_TestCase
         $this->input = new StringInput('');
         $this->command->run($this->input, $this->output);
 
-        Phake::inOrder(
-            Phake::verify($this->output)->write(
+        Phunky::inOrder(
+            Phunky::verify($this->output)->write(
                 '<info>Generating documentation... </info>'
             ),
-            Phake::verify($this->generator)->generate(),
-            Phake::verify($this->output)->writeln('done.')
+            Phunky::verify($this->generator)->generate(),
+            Phunky::verify($this->output)->writeln('done.')
         );
-        Phake::verify($this->launcher, Phake::never())->launch(Phake::anyParameters());
+        Phunky::verify($this->launcher, Phunky::never())->launch(Phunky::anyParameters());
     }
 
     public function testExecuteWithOpen()
@@ -89,17 +89,17 @@ class DocumentationCommandTest extends PHPUnit_Framework_TestCase
         $this->input = new StringInput('--open');
         $this->command->run($this->input, $this->output);
 
-        $doneVerification = Phake::verify($this->output, Phake::times(2))->writeln('done.');
-        Phake::inOrder(
-            Phake::verify($this->output)->write(
+        $doneVerification = Phunky::verify($this->output, Phunky::times(2))->writeln('done.');
+        Phunky::inOrder(
+            Phunky::verify($this->output)->write(
                 '<info>Generating documentation... </info>'
             ),
-            Phake::verify($this->generator)->generate(),
+            Phunky::verify($this->generator)->generate(),
             $doneVerification,
-            Phake::verify($this->output)->write(
+            Phunky::verify($this->output)->write(
                 '<info>Opening documentation... </info>'
             ),
-            Phake::verify($this->launcher)->launch('./artifacts/documentation/api/index.html'),
+            Phunky::verify($this->launcher)->launch('./artifacts/documentation/api/index.html'),
             $doneVerification
         );
     }

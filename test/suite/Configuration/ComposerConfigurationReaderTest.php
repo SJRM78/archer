@@ -1,7 +1,8 @@
 <?php
 namespace Icecave\Archer\Configuration;
 
-use Phake;
+use Eloquent\Phony\Phpunit as x;
+use Icecave\Archer\FileSystem\FileSystem;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -9,52 +10,37 @@ class ComposerConfigurationReaderTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
-
-        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->reader = new ComposerConfigurationReader($this->fileSystem);
+        $this->fileSystem = x\mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->subject = new ComposerConfigurationReader($this->fileSystem->mock());
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->fileSystem, $this->reader->fileSystem());
+        $this->assertSame($this->fileSystem->mock(), $this->subject->fileSystem());
     }
 
     public function testConstructorDefaults()
     {
-        $this->reader = new ComposerConfigurationReader();
+        $this->subject = new ComposerConfigurationReader();
 
-        $this->assertInstanceOf(
-            'Icecave\Archer\FileSystem\FileSystem',
-            $this->reader->fileSystem()
-        );
+        $this->assertEquals(new FileSystem(), $this->subject->fileSystem());
     }
 
     public function testRead()
     {
-        Phake::when($this->fileSystem)
-            ->read(Phake::anyParameters())
-            ->thenReturn('{"foo": "bar"}')
-        ;
-        $actual = $this->reader->read('baz');
-        $expected = new stdClass();
-        $expected->foo = 'bar';
+        $this->fileSystem->read->returns('{"foo": "bar"}');
 
-        $this->assertEquals($expected, $actual);
-        Phake::verify($this->fileSystem)->read('baz/composer.json');
+        $this->assertEquals((object) array('foo' => 'bar'), $this->subject->read('baz'));
     }
 
     public function testReadFailureJson()
     {
-        Phake::when($this->fileSystem)
-            ->read(Phake::anyParameters())
-            ->thenReturn('{')
-        ;
+        $this->fileSystem->read->returns('{');
 
         $this->setExpectedException(
             'Icecave\Archer\FileSystem\Exception\ReadException',
             "Unable to read from 'baz/composer.json'."
         );
-        $actual = $this->reader->read('baz');
+        $this->subject->read('baz');
     }
 }
