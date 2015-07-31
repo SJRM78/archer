@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 // Update composer to the latest version ...
 passthru('composer self-update --no-interaction');
 
