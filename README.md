@@ -13,7 +13,6 @@ provides the following benefits:
 
 * Configuration-free, best-practice [unit testing](#unit-testing) and [test coverage reports](#test-coverage-reports)
   with [PHPUnit] and [Xdebug].
-* Improved [mock object](#improved-mock-object-support) support courtesy of [Phake].
 * Configuration-free generation of [API documentation](#api-documentation) using [Sami].
 * Automated [configuration](#automated-configuration) of repository and [Travis CI].
 * [Build artifact publication](#build-artifact-publication) to project [GitHub Pages].
@@ -44,7 +43,7 @@ provides the following benefits:
 Add [icecave/archer](https://packagist.org/packages/icecave/archer) to the project's `composer.json` file as a
 development dependency:
 
-    composer require icecave/archer:~1 --dev
+    composer require icecave/archer:^1 --dev
 
 This will create a new `composer.json` file if it does not exist, and update all dependencies. The `archer`
 executable should now be available at `vendor/bin/archer`:
@@ -107,14 +106,6 @@ Time: 1 second, Memory: 14.00Mb
 
 OK (414 tests, 915 assertions)
 ```
-
-#### Improved mock object support
-
-In addition to [PHPUnit's test doubles], **Archer** includes [Phake] - an alternative mocking library - and handles
-the configuration necessary to integrate Phake and PHPUnit.
-
-Phake's mocking system is easier to work with, requiring less setup and providing more flexibility than PHPUnit mocks.
-For this reason it is the recommended mocking system.
 
 #### Autoloading of test fixture classes
 
@@ -270,7 +261,6 @@ publishes a similar badge image when [Coveralls] is not enabled.
 [github default branch]: https://help.github.com/articles/setting-the-default-branch-for-a-repository
 [openssl]: http://php.net/openssl
 [pathogen]: https://github.com/eloquent/pathogen
-[phake]: http://phake.digitalsandwich.com/docs/html
 [phpunit's test doubles]: http://www.phpunit.de/manual/current/en/test-doubles.html
 [phpunit]: https://github.com/sebastianbergmann/phpunit
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md

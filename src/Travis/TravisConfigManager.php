@@ -176,9 +176,9 @@ class TravisConfigManager
                 $this->findTemplatePath($archerPackageRoot, $packageRoot, $secureEnvironment !== null, 'travis-matrix')
             );
             $matrix = str_replace(array('{allow-failure-versions}'), array($allowFailureVersions), $template);
-        } else {
+        } else { // @codeCoverageIgnoreStart
             $matrix = '';
-        }
+        } // @codeCoverageIgnoreEnd
 
         $phpVersions = '["' . implode('", "', $phpVersions) . '"]';
 
@@ -324,12 +324,12 @@ class TravisConfigManager
     /**
      * Unstable PHP versions supported by Travis.
      */
-    private static $unstableVersions = array();
+    private static $unstableVersions = array('7.0');
 
     /**
      * Alternate PHP versions supported by Travis.
      */
-    private static $alternateVersions = array('hhvm', 'hhvm-nightly');
+    private static $alternateVersions = array('hhvm');
 
     private $fileSystem;
     private $fileFinder;
