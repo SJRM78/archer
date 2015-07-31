@@ -4,7 +4,9 @@ use Eloquent\Asplode\Asplode;
 use Icecave\Archer\Support\Composer\Autoload\ClassMapGenerator;
 
 // Find the root path of the project being tested ...
-define('ARCHER_ROOT_PATH', __DIR__ . '/../../../../..');
+if (!defined('ARCHER_ROOT_PATH')) {
+    define('ARCHER_ROOT_PATH', __DIR__ . '/../../../../..');
+}
 
 // Install the composer autoloader ...
 $autoloader = require_once ARCHER_ROOT_PATH . '/vendor/autoload.php';
