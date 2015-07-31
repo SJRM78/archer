@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\GitHub;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -11,8 +11,8 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->client = Phake::partialMock(__NAMESPACE__ . '\GitHubClient', $this->isolator);
+        $this->isolator = Phunky::mock('Icecave\Archer\Support\Isolator');
+        $this->client = Phunky::partialMock(__NAMESPACE__ . '\GitHubClient', $this->isolator);
     }
 
     public function testValidateToken()
@@ -38,13 +38,13 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $response->default_branch = 'branch-name';
         $response->master_branch = 'not-branch-name';
 
-        Phake::when($this->client)
-            ->apiGet(Phake::anyParameters())
+        Phunky::when($this->client)
+            ->apiGet(Phunky::anyParameters())
             ->thenReturn($response);
 
         $this->assertSame('branch-name', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phunky::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testDefaultBranchUsingMasterBranch()
@@ -52,24 +52,24 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $response = new stdClass();
         $response->master_branch = 'branch-name';
 
-        Phake::when($this->client)
-            ->apiGet(Phake::anyParameters())
+        Phunky::when($this->client)
+            ->apiGet(Phunky::anyParameters())
             ->thenReturn($response);
 
         $this->assertSame('branch-name', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phunky::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testDefaultBranchFallback()
     {
-        Phake::when($this->client)
-            ->apiGet(Phake::anyParameters())
+        Phunky::when($this->client)
+            ->apiGet(Phunky::anyParameters())
             ->thenReturn(new stdClass());
 
         $this->assertSame('master', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phunky::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testSetAuthToken()
@@ -102,8 +102,8 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
 
     public function testApiGet()
     {
-        Phake::when($this->isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->file_get_contents(Phunky::anyParameters())
             ->thenReturn('{ "result" : true }');
 
         $response = $this->client->apiGet('foo/%s', 'bar');
@@ -113,17 +113,17 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $response);
 
-        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, null);
+        Phunky::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, null);
     }
 
     public function testApiGetWithUserAgent()
     {
-        Phake::when($this->isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->file_get_contents(Phunky::anyParameters())
             ->thenReturn('{ "result" : true }');
 
-        Phake::when($this->isolator)
-            ->stream_context_create(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->stream_context_create(Phunky::anyParameters())
             ->thenReturn('<context>');
 
         $this->client->setUserAgent('test-agent');
@@ -141,18 +141,18 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        Phake::verify($this->isolator)->stream_context_create($contextOptions);
-        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
+        Phunky::verify($this->isolator)->stream_context_create($contextOptions);
+        Phunky::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
     }
 
     public function testApiGetWithAuthToken()
     {
-        Phake::when($this->isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->file_get_contents(Phunky::anyParameters())
             ->thenReturn('{ "result" : true }');
 
-        Phake::when($this->isolator)
-            ->stream_context_create(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->stream_context_create(Phunky::anyParameters())
             ->thenReturn('<context>');
 
         $this->client->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa');
@@ -170,7 +170,7 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        Phake::verify($this->isolator)->stream_context_create($contextOptions);
-        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
+        Phunky::verify($this->isolator)->stream_context_create($contextOptions);
+        Phunky::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
     }
 }

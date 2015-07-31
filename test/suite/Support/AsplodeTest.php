@@ -3,7 +3,7 @@ namespace Icecave\Archer\Support;
 
 use ErrorException;
 use PHPUnit_Framework_TestCase;
-use Phake;
+use Phunky;
 
 class AsplodeTest extends PHPUnit_Framework_TestCase
 {
@@ -11,10 +11,10 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->isolator = Phake::mock(__NAMESPACE__ . '\Isolator');
+        $this->isolator = Phunky::mock(__NAMESPACE__ . '\Isolator');
         $this->asplode  = new Asplode($this->isolator);
 
-        Phake::when($this->isolator)->error_reporting()->thenReturn(E_ALL);
+        Phunky::when($this->isolator)->error_reporting()->thenReturn(E_ALL);
     }
 
     public function testInstance()
@@ -26,7 +26,7 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
     {
         $this->asplode->install();
 
-        Phake::verify($this->isolator)->set_error_handler(array($this->asplode, 'handleError'));
+        Phunky::verify($this->isolator)->set_error_handler(array($this->asplode, 'handleError'));
     }
 
     public function testInstallFailureAlreadyInstalled()
@@ -39,7 +39,7 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
 
     public function testInstallFailureMisconfigured()
     {
-        Phake::when($this->isolator)->error_reporting()->thenReturn(0);
+        Phunky::when($this->isolator)->error_reporting()->thenReturn(0);
 
         $this->setExpectedException('RuntimeException', 'Error reporting misconfigured.');
         $this->asplode->install();
@@ -50,7 +50,7 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
         $this->asplode->install();
         $this->asplode->uninstall();
 
-        Phake::verify($this->isolator)->restore_error_handler();
+        Phunky::verify($this->isolator)->restore_error_handler();
     }
 
     public function testUninstallFailure()
@@ -74,7 +74,7 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
 
     public function testHandleErrorIgnored()
     {
-        Phake::when($this->isolator)->error_reporting()->thenReturn(0);
+        Phunky::when($this->isolator)->error_reporting()->thenReturn(0);
         $this->asplode->handleError(1, 'Message.', 'foo.php', 20);
 
         $this->assertTrue(true);

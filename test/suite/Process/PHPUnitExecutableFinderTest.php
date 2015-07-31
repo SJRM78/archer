@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\Process;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use RuntimeException;
 
@@ -11,13 +11,13 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->executableFinder = Phake::mock(
+        $this->executableFinder = Phunky::mock(
             'Symfony\Component\Process\ExecutableFinder'
         );
-        $this->processFactory = Phake::mock(
+        $this->processFactory = Phunky::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->isolator = Phake::mock(
+        $this->isolator = Phunky::mock(
             'Icecave\Archer\Support\Isolator'
         );
         $this->finder = new PHPUnitExecutableFinder(
@@ -51,23 +51,23 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         $server = $_SERVER;
         unset($_SERVER['TRAVIS']);
-        Phake::when($this->executableFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->executableFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
         $actual = $this->finder->find();
         $_SERVER = $server;
 
         $this->assertSame('foo', $actual);
-        Phake::verify($this->executableFinder)->find('phpunit');
+        Phunky::verify($this->executableFinder)->find('phpunit');
     }
 
     public function testFindGenericFailure()
     {
         $server = $_SERVER;
         unset($_SERVER['TRAVIS']);
-        Phake::when($this->executableFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->executableFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn(null)
         ;
         $error = null;
@@ -85,27 +85,27 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         $server = $_SERVER;
         $_SERVER['TRAVIS'] = 'true';
-        $process = Phake::mock('Symfony\Component\Process\Process');
-        Phake::when($this->processFactory)
-            ->create(Phake::anyParameters())
+        $process = Phunky::mock('Symfony\Component\Process\Process');
+        Phunky::when($this->processFactory)
+            ->create(Phunky::anyParameters())
             ->thenReturn($process)
         ;
-        Phake::when($process)
-            ->isSuccessful(Phake::anyParameters())
+        Phunky::when($process)
+            ->isSuccessful(Phunky::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($process)
-            ->getOutput(Phake::anyParameters())
+        Phunky::when($process)
+            ->getOutput(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
         $actual = $this->finder->find();
         $_SERVER = $server;
 
         $this->assertSame('foo', $actual);
-        Phake::inOrder(
-            Phake::verify($this->processFactory)->create('rbenv', 'which', 'phpunit'),
-            Phake::verify($process)->isSuccessful(),
-            Phake::verify($process)->getOutput()
+        Phunky::inOrder(
+            Phunky::verify($this->processFactory)->create('rbenv', 'which', 'phpunit'),
+            Phunky::verify($process)->isSuccessful(),
+            Phunky::verify($process)->getOutput()
         );
     }
 
@@ -113,21 +113,21 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         $server = $_SERVER;
         $_SERVER['TRAVIS'] = 'true';
-        $process = Phake::mock('Symfony\Component\Process\Process');
-        Phake::when($this->isolator)
-            ->getenv(Phake::anyParameters())
+        $process = Phunky::mock('Symfony\Component\Process\Process');
+        Phunky::when($this->isolator)
+            ->getenv(Phunky::anyParameters())
             ->thenReturn('true')
         ;
-        Phake::when($this->processFactory)
-            ->create(Phake::anyParameters())
+        Phunky::when($this->processFactory)
+            ->create(Phunky::anyParameters())
             ->thenReturn($process)
         ;
-        Phake::when($process)
-            ->isSuccessful(Phake::anyParameters())
+        Phunky::when($process)
+            ->isSuccessful(Phunky::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($process)
-            ->getErrorOutput(Phake::anyParameters())
+        Phunky::when($process)
+            ->getErrorOutput(Phunky::anyParameters())
             ->thenReturn('Foo.')
         ;
         $error = null;

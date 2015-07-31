@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Archer\FileSystem;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 
 class FileSystemTest extends PHPUnit_Framework_TestCase
@@ -10,31 +10,31 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->isolator = Phunky::mock('Icecave\Archer\Support\Isolator');
         $this->fileSystem = new FileSystem($this->isolator);
     }
 
     public function testExists()
     {
-        Phake::when($this->isolator)
-            ->file_exists(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->file_exists(Phunky::anyParameters())
             ->thenReturn(true)
             ->thenReturn(false)
         ;
 
         $this->assertTrue($this->fileSystem->exists('foo'));
         $this->assertFalse($this->fileSystem->exists('bar'));
-        Phake::inOrder(
-            Phake::verify($this->isolator)->file_exists('foo'),
-            Phake::verify($this->isolator)->file_exists('bar')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->file_exists('foo'),
+            Phunky::verify($this->isolator)->file_exists('bar')
         );
     }
 
     public function testExistsFailure()
     {
-        Phake::when($this->isolator)
-            ->file_exists(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->file_exists(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -45,25 +45,25 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testFileExists()
     {
-        Phake::when($this->isolator)
-            ->is_file(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_file(Phunky::anyParameters())
             ->thenReturn(true)
             ->thenReturn(false)
         ;
 
         $this->assertTrue($this->fileSystem->fileExists('foo'));
         $this->assertFalse($this->fileSystem->fileExists('bar'));
-        Phake::inOrder(
-            Phake::verify($this->isolator)->is_file('foo'),
-            Phake::verify($this->isolator)->is_file('bar')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->is_file('foo'),
+            Phunky::verify($this->isolator)->is_file('bar')
         );
     }
 
     public function testFileExistsFailure()
     {
-        Phake::when($this->isolator)
-            ->is_file(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->is_file(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -74,25 +74,25 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testDirectoryExists()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
             ->thenReturn(false)
         ;
 
         $this->assertTrue($this->fileSystem->directoryExists('foo'));
         $this->assertFalse($this->fileSystem->directoryExists('bar'));
-        Phake::inOrder(
-            Phake::verify($this->isolator)->is_dir('foo'),
-            Phake::verify($this->isolator)->is_dir('bar')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->is_dir('foo'),
+            Phunky::verify($this->isolator)->is_dir('bar')
         );
     }
 
     public function testDirectoryExistsFailure()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -103,20 +103,20 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-        Phake::when($this->isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->file_get_contents(Phunky::anyParameters())
             ->thenReturn('bar')
         ;
 
         $this->assertSame('bar', $this->fileSystem->read('foo'));
-        Phake::verify($this->isolator)->file_get_contents('foo');
+        Phunky::verify($this->isolator)->file_get_contents('foo');
     }
 
     public function testReadFailure()
     {
-        Phake::when($this->isolator)
-            ->file_get_contents(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->file_get_contents(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -127,20 +127,20 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testListPaths()
     {
-        Phake::when($this->isolator)
-            ->scandir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->scandir(Phunky::anyParameters())
             ->thenReturn(array('.', '..', 'bar', 'baz'))
         ;
 
         $this->assertSame(array('bar', 'baz'), $this->fileSystem->listPaths('foo'));
-        Phake::verify($this->isolator)->scandir('foo');
+        Phunky::verify($this->isolator)->scandir('foo');
     }
 
     public function testListPathsFailure()
     {
-        Phake::when($this->isolator)
-            ->scandir(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->scandir(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -151,57 +151,57 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
         $this->fileSystem->write('foo/bar', 'baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('foo/bar'),
-            Phake::verify($this->isolator)->is_dir('foo'),
-            Phake::verify($this->isolator)->file_put_contents('foo/bar', 'baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('foo/bar'),
+            Phunky::verify($this->isolator)->is_dir('foo'),
+            Phunky::verify($this->isolator)->file_put_contents('foo/bar', 'baz')
         );
-        Phake::verify($this->isolator, Phake::never())->mkdir(Phake::anyParameters());
+        Phunky::verify($this->isolator, Phunky::never())->mkdir(Phunky::anyParameters());
     }
 
     public function testWriteCreateParentDirectory()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(false)
         ;
         $this->fileSystem->write('foo/bar', 'baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('foo/bar'),
-            Phake::verify($this->isolator)->is_dir('foo'),
-            Phake::verify($this->isolator)->mkdir('foo', 0777, true),
-            Phake::verify($this->isolator)->file_put_contents('foo/bar', 'baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('foo/bar'),
+            Phunky::verify($this->isolator)->is_dir('foo'),
+            Phunky::verify($this->isolator)->mkdir('foo', 0777, true),
+            Phunky::verify($this->isolator)->file_put_contents('foo/bar', 'baz')
         );
     }
 
     public function testWriteFailure()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->isolator)
-            ->file_put_contents(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->file_put_contents(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -212,9 +212,9 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testWriteFailureDirname()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -225,57 +225,57 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testCopy()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('bar')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
         $this->fileSystem->copy('foo', 'bar/baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('bar/baz'),
-            Phake::verify($this->isolator)->is_dir('bar'),
-            Phake::verify($this->isolator)->copy('foo', 'bar/baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('bar/baz'),
+            Phunky::verify($this->isolator)->is_dir('bar'),
+            Phunky::verify($this->isolator)->copy('foo', 'bar/baz')
         );
-        Phake::verify($this->isolator, Phake::never())->mkdir(Phake::anyParameters());
+        Phunky::verify($this->isolator, Phunky::never())->mkdir(Phunky::anyParameters());
     }
 
     public function testCopyCreateParentDirectory()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('bar')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(false)
         ;
         $this->fileSystem->copy('foo', 'bar/baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('bar/baz'),
-            Phake::verify($this->isolator)->is_dir('bar'),
-            Phake::verify($this->isolator)->mkdir('bar', 0777, true),
-            Phake::verify($this->isolator)->copy('foo', 'bar/baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('bar/baz'),
+            Phunky::verify($this->isolator)->is_dir('bar'),
+            Phunky::verify($this->isolator)->mkdir('bar', 0777, true),
+            Phunky::verify($this->isolator)->copy('foo', 'bar/baz')
         );
     }
 
     public function testCopyFailure()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->isolator)
-            ->copy(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->copy(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -286,9 +286,9 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testCopyFailureDirname()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -299,57 +299,57 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testMove()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('bar')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
         $this->fileSystem->move('foo', 'bar/baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('bar/baz'),
-            Phake::verify($this->isolator)->is_dir('bar'),
-            Phake::verify($this->isolator)->rename('foo', 'bar/baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('bar/baz'),
+            Phunky::verify($this->isolator)->is_dir('bar'),
+            Phunky::verify($this->isolator)->rename('foo', 'bar/baz')
         );
-        Phake::verify($this->isolator, Phake::never())->mkdir(Phake::anyParameters());
+        Phunky::verify($this->isolator, Phunky::never())->mkdir(Phunky::anyParameters());
     }
 
     public function testMoveCreateParentDirectory()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('bar')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(false)
         ;
         $this->fileSystem->move('foo', 'bar/baz');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->dirname('bar/baz'),
-            Phake::verify($this->isolator)->is_dir('bar'),
-            Phake::verify($this->isolator)->mkdir('bar', 0777, true),
-            Phake::verify($this->isolator)->rename('foo', 'bar/baz')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->dirname('bar/baz'),
+            Phunky::verify($this->isolator)->is_dir('bar'),
+            Phunky::verify($this->isolator)->mkdir('bar', 0777, true),
+            Phunky::verify($this->isolator)->rename('foo', 'bar/baz')
         );
     }
 
     public function testMoveFailure()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->isolator)
-            ->rename(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->rename(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -360,9 +360,9 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testMoveFailureDirname()
     {
-        Phake::when($this->isolator)
-            ->dirname(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->dirname(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -375,14 +375,14 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         $this->fileSystem->createDirectory('foo');
 
-        Phake::verify($this->isolator)->mkdir('foo', 0777, true);
+        Phunky::verify($this->isolator)->mkdir('foo', 0777, true);
     }
 
     public function testCreateDirectoryFailure()
     {
-        Phake::when($this->isolator)
-            ->mkdir(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->mkdir(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -395,14 +395,14 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         $this->fileSystem->chmod('foo', 0755);
 
-        Phake::verify($this->isolator)->chmod('foo', 0755);
+        Phunky::verify($this->isolator)->chmod('foo', 0755);
     }
 
     public function testChmodFailure()
     {
-        Phake::when($this->isolator)
-            ->chmod(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->chmod(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -413,28 +413,28 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testDeleteFile()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(false)
         ;
         $this->fileSystem->delete('foo');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->is_dir('foo'),
-            Phake::verify($this->isolator)->unlink('foo')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->is_dir('foo'),
+            Phunky::verify($this->isolator)->unlink('foo')
         );
-        Phake::verify($this->isolator, Phake::never())->rmdir(Phake::anyParameters());
+        Phunky::verify($this->isolator, Phunky::never())->rmdir(Phunky::anyParameters());
     }
 
     public function testDeleteFileFailure()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->isolator)
-            ->unlink(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->unlink(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(
@@ -445,42 +445,42 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testDeleteDirectory()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
             ->thenReturn(false)
         ;
-        Phake::when($this->isolator)
-            ->scandir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->scandir(Phunky::anyParameters())
             ->thenReturn(array('.', '..', 'bar', 'baz'))
         ;
         $this->fileSystem->delete('foo');
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->is_dir('foo'),
-            Phake::verify($this->isolator)->scandir('foo'),
-            Phake::verify($this->isolator)->is_dir('foo/bar'),
-            Phake::verify($this->isolator)->unlink('foo/bar'),
-            Phake::verify($this->isolator)->is_dir('foo/baz'),
-            Phake::verify($this->isolator)->unlink('foo/baz'),
-            Phake::verify($this->isolator)->rmdir('foo')
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->is_dir('foo'),
+            Phunky::verify($this->isolator)->scandir('foo'),
+            Phunky::verify($this->isolator)->is_dir('foo/bar'),
+            Phunky::verify($this->isolator)->unlink('foo/bar'),
+            Phunky::verify($this->isolator)->is_dir('foo/baz'),
+            Phunky::verify($this->isolator)->unlink('foo/baz'),
+            Phunky::verify($this->isolator)->rmdir('foo')
         );
-        Phake::verify($this->isolator, Phake::never())->unlink('foo');
+        Phunky::verify($this->isolator, Phunky::never())->unlink('foo');
     }
 
     public function testDeleteDirectoryFailure()
     {
-        Phake::when($this->isolator)
-            ->is_dir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->isolator)
-            ->scandir(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->scandir(Phunky::anyParameters())
             ->thenReturn(array('.', '..'))
         ;
-        Phake::when($this->isolator)
-            ->rmdir(Phake::anyParameters())
-            ->thenThrow(Phake::mock('ErrorException'))
+        Phunky::when($this->isolator)
+            ->rmdir(Phunky::anyParameters())
+            ->thenThrow(Phunky::mock('ErrorException'))
         ;
 
         $this->setExpectedException(

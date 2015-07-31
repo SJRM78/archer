@@ -2,7 +2,7 @@
 namespace Icecave\Archer\Git;
 
 use PHPUnit_Framework_TestCase;
-use Phake;
+use Phunky;
 
 class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
 {
@@ -10,21 +10,21 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->fileSystem = Phunky::mock('Icecave\Archer\FileSystem\FileSystem');
         $this->manager = new GitDotFilesManager($this->fileSystem);
 
         $this->ignore     = 'foo' . PHP_EOL . 'bar' . PHP_EOL;
         $this->attributes = 'foo export-ignore' . PHP_EOL . 'bar export-ignore' . PHP_EOL;
 
-        Phake::when($this->fileSystem)
-            ->fileExists(Phake::anyParameters())
+        Phunky::when($this->fileSystem)
+            ->fileExists(Phunky::anyParameters())
             ->thenReturn(false);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/archer/res/git/gitignore')
             ->thenReturn($this->ignore);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/archer/res/git/gitattributes')
             ->thenReturn($this->attributes);
     }
@@ -56,13 +56,13 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
 
         $result = $this->manager->updateDotFiles('/path/to/archer', '/path/to/project');
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
-            Phake::verify($this->fileSystem)->write('/path/to/project/.gitignore', $expectedIgnore),
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitattributes'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitattributes'),
-            Phake::verify($this->fileSystem)->write('/path/to/project/.gitattributes', $expectedAttributes)
+        Phunky::inOrder(
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
+            Phunky::verify($this->fileSystem)->write('/path/to/project/.gitignore', $expectedIgnore),
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitattributes'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitattributes'),
+            Phunky::verify($this->fileSystem)->write('/path/to/project/.gitattributes', $expectedAttributes)
         );
 
         $expected = array(
@@ -75,11 +75,11 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateDotFilesAppend()
     {
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->fileExists('/path/to/project/.gitignore')
             ->thenReturn(true);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/project/.gitignore')
             ->thenReturn('existing' . PHP_EOL);
 
@@ -91,10 +91,10 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
         $result = $this->manager->updateDotFiles('/path/to/archer', '/path/to/project');
         $actualIgnore = null;
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
-            Phake::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phake::capture($actualIgnore))
+        Phunky::inOrder(
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
+            Phunky::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phunky::capture($actualIgnore))
         );
 
         $expected = array(
@@ -114,11 +114,11 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
         $existingIgnore .= '  # archer end   ' . PHP_EOL;
         $existingIgnore .= 'more existing content';
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->fileExists('/path/to/project/.gitignore')
             ->thenReturn(true);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/project/.gitignore')
             ->thenReturn($existingIgnore);
 
@@ -131,10 +131,10 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
         $result = $this->manager->updateDotFiles('/path/to/archer', '/path/to/project');
         $actualIgnore = null;
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
-            Phake::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phake::capture($actualIgnore))
+        Phunky::inOrder(
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
+            Phunky::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phunky::capture($actualIgnore))
         );
 
         $expected = array(
@@ -154,22 +154,22 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
         $existingIgnore .= '# archer end' . PHP_EOL;
         $existingIgnore .= 'more existing content' . PHP_EOL;
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->fileExists('/path/to/project/.gitignore')
             ->thenReturn(true);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/project/.gitignore')
             ->thenReturn($existingIgnore);
 
         $result = $this->manager->updateDotFiles('/path/to/archer', '/path/to/project');
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore')
+        Phunky::inOrder(
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore')
         );
 
-        Phake::verify($this->fileSystem, Phake::never())->write('/path/to/project/.gitignore', $this->anything());
+        Phunky::verify($this->fileSystem, Phunky::never())->write('/path/to/project/.gitignore', $this->anything());
 
         $expected = array(
             '.gitignore'     => false,
@@ -181,11 +181,11 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateDotFilesMissingTags()
     {
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->fileExists('/path/to/project/.gitignore')
             ->thenReturn(true);
 
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->read('/path/to/project/.gitignore')
             ->thenReturn($this->ignore);
 
@@ -196,10 +196,10 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
         $result = $this->manager->updateDotFiles('/path/to/archer', '/path/to/project');
         $actualIgnore = null;
 
-        Phake::inOrder(
-            Phake::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
-            Phake::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
-            Phake::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phake::capture($actualIgnore))
+        Phunky::inOrder(
+            Phunky::verify($this->fileSystem)->fileExists('/path/to/project/.gitignore'),
+            Phunky::verify($this->fileSystem)->read('/path/to/archer/res/git/gitignore'),
+            Phunky::verify($this->fileSystem)->write('/path/to/project/.gitignore', Phunky::capture($actualIgnore))
         );
 
         $expected = array(

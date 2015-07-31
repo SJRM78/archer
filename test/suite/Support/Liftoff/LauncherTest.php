@@ -11,7 +11,7 @@
 
 namespace Icecave\Archer\Support\Liftoff;
 
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use Icecave\Archer\Support\Isolator;
 
@@ -21,7 +21,7 @@ class LauncherTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->isolator = Phake::mock(Isolator::className());
+        $this->isolator = Phunky::mock(Isolator::className());
         $this->launcher = new Launcher($this->isolator);
     }
 
@@ -48,29 +48,29 @@ class LauncherTest extends PHPUnit_Framework_TestCase
             array('pipe', 'w'),
             array('pipe', 'w'),
         );
-        Phake::when($this->isolator)->php_uname('s')->thenReturn($os);
-        Phake::when($this->isolator)
-            ->proc_open($expectedCommand, $expectedDescriptorSpec, Phake::setReference(array(222, 333, 444)))
+        Phunky::when($this->isolator)->php_uname('s')->thenReturn($os);
+        Phunky::when($this->isolator)
+            ->proc_open($expectedCommand, $expectedDescriptorSpec, Phunky::setReference(array(222, 333, 444)))
             ->thenReturn(111);
         $this->launcher->launch($target, $arguments);
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->proc_open(
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->proc_open(
                 $expectedCommand,
                 $expectedDescriptorSpec,
                 null
             ),
-            Phake::verify($this->isolator)->fclose(222),
-            Phake::verify($this->isolator)->fclose(333),
-            Phake::verify($this->isolator)->fclose(444),
-            Phake::verify($this->isolator)->proc_close(111)
+            Phunky::verify($this->isolator)->fclose(222),
+            Phunky::verify($this->isolator)->fclose(333),
+            Phunky::verify($this->isolator)->fclose(444),
+            Phunky::verify($this->isolator)->proc_close(111)
         );
     }
 
     public function testLaunchFailure()
     {
-        Phake::when($this->isolator)
-            ->proc_open(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->proc_open(Phunky::anyParameters())
             ->thenReturn(false);
 
         $this->setExpectedException(

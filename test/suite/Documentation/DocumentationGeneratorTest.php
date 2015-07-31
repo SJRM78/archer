@@ -2,7 +2,7 @@
 namespace Icecave\Archer\Documentation;
 
 use Eloquent\Liberator\Liberator;
-use Phake;
+use Phunky;
 use PHPUnit_Framework_TestCase;
 use Sami\Sami;
 use stdClass;
@@ -14,39 +14,39 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->composerConfigReader = Phake::mock(
+        $this->fileSystem = Phunky::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->composerConfigReader = Phunky::mock(
             'Icecave\Archer\Configuration\ComposerConfigurationReader'
         );
-        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->generator = Phake::partialMock(
+        $this->isolator = Phunky::mock('Icecave\Archer\Support\Isolator');
+        $this->generator = Phunky::partialMock(
             __NAMESPACE__ . '\DocumentationGenerator',
             $this->fileSystem,
             $this->composerConfigReader,
             $this->isolator
         );
 
-        Phake::when($this->fileSystem)
-            ->read(Phake::anyParameters())
+        Phunky::when($this->fileSystem)
+            ->read(Phunky::anyParameters())
             ->thenReturn('{"name": "vendor/project"}');
-        Phake::when($this->isolator)
+        Phunky::when($this->isolator)
             ->sys_get_temp_dir()
             ->thenReturn('/path/to/tmp');
-        Phake::when($this->isolator)
-            ->uniqid(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->uniqid(Phunky::anyParameters())
             ->thenReturn('uniqid');
 
         $this->composerConfiguration = json_decode(
             '{"autoload": {"psr-0": {"Vendor\\\\Project\\\\SubProject": "src"}}}'
         );
         $this->finder = Finder::create();
-        $this->sami = Phake::mock('Sami\Sami');
-        $this->samiProject = Phake::mock('Sami\Project');
+        $this->sami = Phunky::mock('Sami\Sami');
+        $this->samiProject = Phunky::mock('Sami\Project');
 
-        Phake::when($this->composerConfigReader)
-            ->read(Phake::anyParameters())
+        Phunky::when($this->composerConfigReader)
+            ->read(Phunky::anyParameters())
             ->thenReturn($this->composerConfiguration);
-        Phake::when($this->sami)
+        Phunky::when($this->sami)
             ->offsetGet('project')
             ->thenReturn($this->samiProject);
     }
@@ -76,23 +76,23 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGenerate()
     {
-        Phake::when($this->generator)
-            ->sourcePath(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->sourcePath(Phunky::anyParameters())
             ->thenReturn('/path/to/source');
-        Phake::when($this->generator)
-            ->createFinder(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createFinder(Phunky::anyParameters())
             ->thenReturn($this->finder);
-        Phake::when($this->generator)
-            ->createSami(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createSami(Phunky::anyParameters())
             ->thenReturn($this->sami);
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->directoryExists('foo/artifacts/documentation/api')
             ->thenReturn(true);
         $this->generator->generate('foo');
 
-        Phake::inOrder(
-            Phake::verify($this->generator)->createFinder('/path/to/source'),
-            Phake::verify($this->generator)->createSami(
+        Phunky::inOrder(
+            Phunky::verify($this->generator)->createFinder('/path/to/source'),
+            Phunky::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
                     'title' => 'Project - SubProject API',
@@ -101,32 +101,32 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
-            Phake::verify($this->fileSystem)->delete(
+            Phunky::verify($this->fileSystem)->delete(
                 'foo/artifacts/documentation/api'
             ),
-            Phake::verify($this->samiProject)->update()
+            Phunky::verify($this->samiProject)->update()
         );
     }
 
     public function testGenerateDefaultPath()
     {
-        Phake::when($this->generator)
-            ->sourcePath(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->sourcePath(Phunky::anyParameters())
             ->thenReturn('/path/to/source');
-        Phake::when($this->generator)
-            ->createFinder(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createFinder(Phunky::anyParameters())
             ->thenReturn($this->finder);
-        Phake::when($this->generator)
-            ->createSami(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createSami(Phunky::anyParameters())
             ->thenReturn($this->sami);
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->directoryExists('./artifacts/documentation/api')
             ->thenReturn(true);
         $this->generator->generate();
 
-        Phake::inOrder(
-            Phake::verify($this->generator)->createFinder('/path/to/source'),
-            Phake::verify($this->generator)->createSami(
+        Phunky::inOrder(
+            Phunky::verify($this->generator)->createFinder('/path/to/source'),
+            Phunky::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
                     'title' => 'Project - SubProject API',
@@ -135,32 +135,32 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
-            Phake::verify($this->fileSystem)->delete(
+            Phunky::verify($this->fileSystem)->delete(
                 './artifacts/documentation/api'
             ),
-            Phake::verify($this->samiProject)->update()
+            Phunky::verify($this->samiProject)->update()
         );
     }
 
     public function testGenerateBuildDirNonExistant()
     {
-        Phake::when($this->generator)
-            ->sourcePath(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->sourcePath(Phunky::anyParameters())
             ->thenReturn('/path/to/source');
-        Phake::when($this->generator)
-            ->createFinder(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createFinder(Phunky::anyParameters())
             ->thenReturn($this->finder);
-        Phake::when($this->generator)
-            ->createSami(Phake::anyParameters())
+        Phunky::when($this->generator)
+            ->createSami(Phunky::anyParameters())
             ->thenReturn($this->sami);
-        Phake::when($this->fileSystem)
+        Phunky::when($this->fileSystem)
             ->directoryExists('foo/artifacts/documentation/api')
             ->thenReturn(false);
         $this->generator->generate('foo');
 
-        Phake::inOrder(
-            Phake::verify($this->generator)->createFinder('/path/to/source'),
-            Phake::verify($this->generator)->createSami(
+        Phunky::inOrder(
+            Phunky::verify($this->generator)->createFinder('/path/to/source'),
+            Phunky::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
                     'title' => 'Project - SubProject API',
@@ -169,9 +169,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
-            Phake::verify($this->samiProject)->update()
+            Phunky::verify($this->samiProject)->update()
         );
-        Phake::verify($this->fileSystem, Phake::never())->delete(
+        Phunky::verify($this->fileSystem, Phunky::never())->delete(
             'foo/artifacts/documentation/api'
         );
     }
@@ -292,8 +292,8 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $handlerA = function () { return 'A'; };
         $handlerB = function () { return 'B'; };
         $handlerStack = array($handlerA, $handlerB);
-        Phake::when($this->isolator)
-            ->set_error_handler(Phake::anyParameters())
+        Phunky::when($this->isolator)
+            ->set_error_handler(Phunky::anyParameters())
             ->thenGetReturnByLambda(function ($handler) use (&$handlerStack) {
                 return array_pop($handlerStack);
             });
@@ -303,11 +303,11 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             $expected,
             Liberator::liberate($this->generator)->popErrorHandlers()
         );
-        $setVerification = Phake::verify($this->isolator, Phake::times(3))
-            ->set_error_handler(function () {});
-        $restoreVerification = Phake::verify($this->isolator, Phake::times(6))
+        $setVerification = Phunky::verify($this->isolator, Phunky::times(3))
+            ->set_error_handler($this->isInstanceOf('Closure'));
+        $restoreVerification = Phunky::verify($this->isolator, Phunky::times(6))
             ->restore_error_handler();
-        Phake::inOrder(
+        Phunky::inOrder(
             $setVerification,
             $restoreVerification,
             $restoreVerification,
@@ -327,11 +327,11 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $handlerStack = array($handlerB, $handlerA);
         Liberator::liberate($this->generator)->pushErrorHandlers($handlerStack);
 
-        Phake::inOrder(
-            Phake::verify($this->isolator)->set_error_handler(
+        Phunky::inOrder(
+            Phunky::verify($this->isolator)->set_error_handler(
                 $this->identicalTo($handlerA)
             ),
-            Phake::verify($this->isolator)->set_error_handler(
+            Phunky::verify($this->isolator)->set_error_handler(
                 $this->identicalTo($handlerB)
             )
         );

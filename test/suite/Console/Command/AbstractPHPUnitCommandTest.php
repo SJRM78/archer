@@ -2,7 +2,7 @@
 namespace Icecave\Archer\Console\Command;
 
 use PHPUnit_Framework_TestCase;
-use Phake;
+use Phunky;
 use ReflectionObject;
 
 class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
@@ -11,25 +11,25 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->fileSystem = Phake::mock(
+        $this->fileSystem = Phunky::mock(
             'Icecave\Archer\FileSystem\FileSystem'
         );
-        $this->phpFinder = Phake::mock(
+        $this->phpFinder = Phunky::mock(
             'Symfony\Component\Process\PhpExecutableFinder'
         );
-        $this->phpunitFinder = Phake::mock(
+        $this->phpunitFinder = Phunky::mock(
             'Icecave\Archer\Process\PHPUnitExecutableFinder'
         );
-        $this->phpConfigurationReader = Phake::mock(
+        $this->phpConfigurationReader = Phunky::mock(
             'Icecave\Archer\Configuration\PHPConfigurationReader'
         );
-        $this->configurationFileFinder = Phake::mock(
+        $this->configurationFileFinder = Phunky::mock(
             'Icecave\Archer\Configuration\ConfigurationFileFinder'
         );
-        $this->processFactory = Phake::mock(
+        $this->processFactory = Phunky::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->command = Phake::partialMock(
+        $this->command = Phunky::partialMock(
             __NAMESPACE__ . '\AbstractPHPUnitCommand',
             $this->fileSystem,
             $this->phpFinder,
@@ -40,33 +40,33 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             'cmd'
         );
 
-        $this->application = Phake::mock('Icecave\Archer\Console\Application');
-        $this->process = Phake::mock('Symfony\Component\Process\Process');
+        $this->application = Phunky::mock('Icecave\Archer\Console\Application');
+        $this->process = Phunky::mock('Symfony\Component\Process\Process');
 
-        Phake::when($this->command)
-            ->getApplication(Phake::anyParameters())
+        Phunky::when($this->command)
+            ->getApplication(Phunky::anyParameters())
             ->thenReturn($this->application)
         ;
 
-        Phake::when($this->processFactory)
-            ->create(Phake::anyParameters())
+        Phunky::when($this->processFactory)
+            ->create(Phunky::anyParameters())
             ->thenReturn($this->process)
         ;
 
-        Phake::when($this->phpFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->phpFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('/path/to/php')
         ;
 
-        Phake::when($this->phpunitFinder)
-            ->find(Phake::anyParameters())
+        Phunky::when($this->phpunitFinder)
+            ->find(Phunky::anyParameters())
             ->thenReturn('/path/to/phpunit')
         ;
     }
 
     public function testConstructor()
     {
-        Phake::verify($this->command)->ignoreValidationErrors();
+        Phunky::verify($this->command)->ignoreValidationErrors();
 
         $this->assertSame($this->fileSystem, $this->command->fileSystem());
         $this->assertSame($this->phpFinder, $this->command->phpFinder());
@@ -78,7 +78,7 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testConstructorDefaults()
     {
-        $this->command = Phake::partialMock(
+        $this->command = Phunky::partialMock(
             __NAMESPACE__ . '\AbstractPHPUnitCommand',
             null,
             null,
@@ -117,8 +117,8 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGetHelp()
     {
-        Phake::when($this->process)
-            ->run(Phake::anyParameters())
+        Phunky::when($this->process)
+            ->run(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($callback) {
                     $callback('out', '<phpunit help>');
@@ -134,11 +134,11 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
         $shim = null;
 
-        Phake::inOrder(
-            Phake::verify($this->phpFinder)->find(),
-            Phake::verify($this->phpunitFinder)->find(),
-            Phake::verify($this->processFactory)->create('/path/to/php', '/path/to/phpunit', '--help'),
-            Phake::verify($this->process)->run($this->isInstanceOf('Closure'))
+        Phunky::inOrder(
+            Phunky::verify($this->phpFinder)->find(),
+            Phunky::verify($this->phpunitFinder)->find(),
+            Phunky::verify($this->processFactory)->create('/path/to/php', '/path/to/phpunit', '--help'),
+            Phunky::verify($this->process)->run($this->isInstanceOf('Closure'))
         );
 
         $this->assertSame($expectedHelp, $result);
@@ -146,15 +146,15 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateArgumentsFiltering()
     {
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->phpConfigurationArguments()
             ->thenReturn(array());
 
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->readPHPConfiguration()
             ->thenReturn(array());
 
-        Phake::when($this->command)
+        Phunky::when($this->command)
             ->findPHPUnitConfiguration()
             ->thenReturn('/path/to/config.xml');
 
