@@ -12,24 +12,19 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->executableFinder = Phunky::mock(
-            'Symfony\Component\Process\ExecutableFinder'
-        );
-        $this->processFactory = Phunky::mock(
-            'Icecave\Archer\Process\ProcessFactory'
-        );
-        $this->isolator = Phunky::mock(
-            'Icecave\Archer\Support\Isolator'
-        );
+        $this->fileSystem = Phunky::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->executableFinder = Phunky::mock('Symfony\Component\Process\ExecutableFinder');
+        $this->processFactory = Phunky::mock('Icecave\Archer\Process\ProcessFactory');
         $this->finder = new PHPUnitExecutableFinder(
+            $this->fileSystem,
             $this->executableFinder,
-            $this->processFactory,
-            $this->isolator
+            $this->processFactory
         );
     }
 
     public function testConstructor()
     {
+        $this->assertSame($this->fileSystem, $this->finder->fileSystem());
         $this->assertSame($this->executableFinder, $this->finder->executableFinder());
         $this->assertSame($this->processFactory, $this->finder->processFactory());
     }
@@ -46,6 +41,15 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
             'Icecave\Archer\Process\ProcessFactory',
             $this->finder->processFactory()
         );
+    }
+
+    public function testFindLocal()
+    {
+        $server = $_SERVER;
+        unset($_SERVER['TRAVIS']);
+        Phunky::when($this->fileSystem)->fileExists('vendor/bin/phpunit')->thenReturn(true);
+
+        $this->assertSame('vendor/bin/phpunit', $this->finder->find());
     }
 
     public function testFindGeneric()
@@ -110,9 +114,6 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         $server = $_SERVER;
         $_SERVER['TRAVIS'] = 'true';
         $process = Phunky::mock('Symfony\Component\Process\Process');
-        Phunky::when($this->isolator)
-            ->getenv(Phunky::anyParameters())
-            ->thenReturn('true');
         Phunky::when($this->processFactory)
             ->create(Phunky::anyParameters())
             ->thenReturn($process);

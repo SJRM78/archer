@@ -2,19 +2,25 @@
 
 namespace Icecave\Archer\Process;
 
+use Icecave\Archer\FileSystem\FileSystem;
 use RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 
 class PHPUnitExecutableFinder
 {
     /**
+     * @param FileSystem|null       $fileSystem
      * @param ExecutableFinder|null $executableFinder
      * @param ProcessFactory|null   $processFactory
      */
     public function __construct(
+        FileSystem $fileSystem = null,
         ExecutableFinder $executableFinder = null,
         ProcessFactory $processFactory = null
     ) {
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem();
+        }
         if (null === $executableFinder) {
             $executableFinder = new ExecutableFinder();
         }
@@ -22,8 +28,17 @@ class PHPUnitExecutableFinder
             $processFactory = new ProcessFactory();
         }
 
+        $this->fileSystem = $fileSystem;
         $this->executableFinder = $executableFinder;
         $this->processFactory = $processFactory;
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -47,6 +62,10 @@ class PHPUnitExecutableFinder
      */
     public function find()
     {
+        if ($this->fileSystem()->fileExists('vendor/bin/phpunit')) {
+            return 'vendor/bin/phpunit';
+        }
+
         if ($this->environmentIsTravis()) {
             return $this->findForTravis();
         }
@@ -60,6 +79,7 @@ class PHPUnitExecutableFinder
     protected function findForGeneric()
     {
         $phpunit = $this->executableFinder()->find('phpunit');
+
         if (null === $phpunit) {
             throw new RuntimeException('Unable to find PHPUnit executable.');
         }
@@ -74,6 +94,7 @@ class PHPUnitExecutableFinder
     {
         $process = $this->processFactory()->create('rbenv', 'which', 'phpunit');
         $process->run();
+
         if (!$process->isSuccessful()) {
             throw new RuntimeException(
                 sprintf(
@@ -98,6 +119,7 @@ class PHPUnitExecutableFinder
         return false;
     }
 
+    private $fileSystem;
     private $executableFinder;
     private $processFactory;
 }
