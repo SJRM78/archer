@@ -1,21 +1,14 @@
-<phpunit
-    bootstrap="bootstrap.php"
-    strict="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    mapTestClassNameToCoveredClassName="true"
-    verbose="true"
-    colors="true"
-    timeoutForSmallTests="2"
-    timeoutForMediumTests="10"
-    timeoutForLargeTests="60"
->
+<phpunit bootstrap="bootstrap.php" verbose="true" colors="true">
     <testsuites>
         <testsuite>
             <directory>../../../../../test/suite</directory>
         </testsuite>
     </testsuites>
+
+    <logging>
+        <log type="tap" target="../../../../../artifacts/tests/report.tap" />
+        <log type="junit" target="../../../../../artifacts/tests/report.junit.xml" />
+    </logging>
 
     <groups>
         <exclude>
