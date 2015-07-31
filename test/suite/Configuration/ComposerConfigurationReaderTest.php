@@ -1,10 +1,10 @@
 <?php
+
 namespace Icecave\Archer\Configuration;
 
 use Eloquent\Phony\Phpunit as x;
 use Icecave\Archer\FileSystem\FileSystem;
 use PHPUnit_Framework_TestCase;
-use stdClass;
 
 class ComposerConfigurationReaderTest extends PHPUnit_Framework_TestCase
 {

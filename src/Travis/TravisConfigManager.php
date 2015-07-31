@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Travis;
 
 use Icecave\Archer\Configuration\ComposerConfigurationReader;
@@ -228,7 +229,7 @@ class TravisConfigManager
                 '%s/test/%s',
                 $packageRoot,
                 $this->templateFilename($hasSecureEnvironment, $templateName)
-            )
+            ),
         );
     }
 

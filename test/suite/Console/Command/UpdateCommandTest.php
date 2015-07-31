@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\Console\Application;
@@ -29,12 +30,10 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->hiddenInputHelper = Phunky::mock('Icecave\Archer\Console\Helper\HiddenInputHelper');
         Phunky::when($this->helperSet)
             ->get('dialog')
-            ->thenReturn($this->dialogHelper)
-        ;
+            ->thenReturn($this->dialogHelper);
         Phunky::when($this->helperSet)
             ->get('hidden-input')
-            ->thenReturn($this->hiddenInputHelper)
-        ;
+            ->thenReturn($this->hiddenInputHelper);
 
         $this->command = new UpdateCommand(
             $this->dotFilesManager,
@@ -196,8 +195,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processA)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
-        ;
+            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n");
 
         $this->command->run($input, $this->output);
 
@@ -239,12 +237,10 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processA)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn("\n")
-        ;
+            ->thenReturn("\n");
         Phunky::when($this->processB)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
-        ;
+            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n");
 
         $this->command->run($input, $this->output);
 
@@ -299,16 +295,13 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->dialogHelper)
             ->ask(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->hiddenInputHelper)
             ->askHiddenResponse(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
         Phunky::when($this->processA)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
-        ;
+            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n");
 
         $this->command->run($input, $this->output);
 
@@ -353,8 +346,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             ->thenReturn(
                 "1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n" .
                 "1584202: c1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n"
-            )
-        ;
+            );
 
         $this->setExpectedException(
             'RuntimeException',
@@ -369,8 +361,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processA)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [user, repo] https://github.com/IcecaveStudios/archer\n")
-        ;
+            ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [user, repo] https://github.com/IcecaveStudios/archer\n");
 
         $this->setExpectedException(
             'RuntimeException',
@@ -385,8 +376,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processA)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn('baz')
-        ;
+            ->thenReturn('baz');
 
         $this->setExpectedException(
             'RuntimeException',
@@ -401,8 +391,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processA)
             ->isSuccessful(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->setExpectedException(
             'RuntimeException',

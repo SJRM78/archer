@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Coveralls;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 
 class CoverallsClientTest extends PHPUnit_Framework_TestCase
 {

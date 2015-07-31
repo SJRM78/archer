@@ -1,9 +1,10 @@
 <?php
+
 namespace Icecave\Archer\Documentation;
 
 use Icecave\Archer\Configuration\ComposerConfigurationReader;
-use Icecave\Archer\Support\Isolator;
 use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\Support\Isolator;
 use RuntimeException;
 use Sami\Sami;
 use stdClass;

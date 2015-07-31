@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Console\Helper;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use RuntimeException;
 
 class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
@@ -19,12 +20,10 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->isolator)
             ->sys_get_temp_dir(Phunky::anyParameters())
-            ->thenReturn('doom')
-        ;
+            ->thenReturn('doom');
         Phunky::when($this->isolator)
             ->uniqid(Phunky::anyParameters())
-            ->thenReturn('splat')
-        ;
+            ->thenReturn('splat');
 
         $this->output = Phunky::mock(
             'Symfony\Component\Console\Output\OutputInterface'
@@ -54,17 +53,14 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->defined(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->isolator)
             ->shell_exec(Phunky::anyParameters())
             ->thenReturn('baz')
-            ->thenReturn('')
-        ;
+            ->thenReturn('');
         Phunky::when($this->isolator)
             ->fgets(Phunky::anyParameters())
-            ->thenReturn('qux')
-        ;
+            ->thenReturn('qux');
         $actual = $this->helper->askHiddenResponse($this->output, 'bar');
 
         $this->assertSame('qux', $actual);
@@ -84,17 +80,14 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
         $errorException = Phunky::mock('ErrorException');
         Phunky::when($this->isolator)
             ->defined(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->isolator)
             ->shell_exec(Phunky::anyParameters())
             ->thenReturn('baz')
-            ->thenReturn('')
-        ;
+            ->thenReturn('');
         Phunky::when($this->isolator)
             ->fgets(Phunky::anyParameters())
-            ->thenThrow($errorException)
-        ;
+            ->thenThrow($errorException);
         $actual = null;
         try {
             $this->helper->askHiddenResponse($this->output, 'bar');
@@ -117,12 +110,10 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->defined(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->isolator)
             ->shell_exec(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->setExpectedException(
             'RuntimeException',
@@ -135,12 +126,10 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->defined(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->shell_exec(Phunky::anyParameters())
-            ->thenReturn('baz')
-        ;
+            ->thenReturn('baz');
         $actual = $this->helper->askHiddenResponse($this->output, 'bar');
 
         $this->assertSame('baz', $actual);
@@ -157,12 +146,10 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->defined(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->shell_exec(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->setExpectedException(
             'RuntimeException',

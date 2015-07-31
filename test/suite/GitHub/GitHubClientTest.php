@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\GitHub;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use stdClass;
 
 class GitHubClientTest extends PHPUnit_Framework_TestCase
@@ -137,8 +138,8 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
 
         $contextOptions = array(
             'http' => array(
-                'user_agent' => 'test-agent'
-            )
+                'user_agent' => 'test-agent',
+            ),
         );
 
         Phunky::verify($this->isolator)->stream_context_create($contextOptions);
@@ -166,8 +167,8 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
 
         $contextOptions = array(
             'http' => array(
-                'header' => 'Authorization: token b1a94b90073382b330f601ef198bb0729b0168aa'
-            )
+                'header' => 'Authorization: token b1a94b90073382b330f601ef198bb0729b0168aa',
+            ),
         );
 
         Phunky::verify($this->isolator)->stream_context_create($contextOptions);

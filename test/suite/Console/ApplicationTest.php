@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console;
 
 use Eloquent\Phony\Phpunit as x;

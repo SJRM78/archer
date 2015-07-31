@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Git;
 
-use RuntimeException;
 use Icecave\Archer\Process\ProcessFactory;
+use RuntimeException;
 
 class GitConfigReader
 {

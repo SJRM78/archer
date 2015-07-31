@@ -1,4 +1,5 @@
 <?php
+
 // @codeCoverageIgnoreStart
 
 /*
@@ -14,7 +15,7 @@
 namespace Icecave\Archer\Support\Composer\Package\LinkConstraint;
 
 /**
- * Defines an absence of constraints
+ * Defines an absence of constraints.
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */

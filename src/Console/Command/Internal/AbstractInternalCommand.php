@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command\Internal;
 
 use Icecave\Archer\FileSystem\FileSystem;

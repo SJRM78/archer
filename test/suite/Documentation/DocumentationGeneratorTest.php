@@ -1,9 +1,10 @@
 <?php
+
 namespace Icecave\Archer\Documentation;
 
 use Eloquent\Liberator\Liberator;
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use Sami\Sami;
 use stdClass;
 use Symfony\Component\Finder\Finder;

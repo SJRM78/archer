@@ -1,6 +1,5 @@
 <?php
 
-use Eloquent\Phony\Phpunit\Phony;
 
 class PhunkyCapture
 {

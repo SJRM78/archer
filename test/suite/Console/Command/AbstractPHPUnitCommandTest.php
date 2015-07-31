@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
 use PHPUnit_Framework_TestCase;
@@ -45,23 +46,19 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->command)
             ->getApplication(Phunky::anyParameters())
-            ->thenReturn($this->application)
-        ;
+            ->thenReturn($this->application);
 
         Phunky::when($this->processFactory)
             ->create(Phunky::anyParameters())
-            ->thenReturn($this->process)
-        ;
+            ->thenReturn($this->process);
 
         Phunky::when($this->phpFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('/path/to/php')
-        ;
+            ->thenReturn('/path/to/php');
 
         Phunky::when($this->phpunitFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('/path/to/phpunit')
-        ;
+            ->thenReturn('/path/to/phpunit');
     }
 
     public function testConstructor()
@@ -178,7 +175,7 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             '/path/to/phpunit',
             '--configuration',
             '/path/to/config.xml',
-            '--color'
+            '--color',
         );
 
         $result = $method->invoke($this->command, '/path/to/php', '/path/to/phpunit', $input);

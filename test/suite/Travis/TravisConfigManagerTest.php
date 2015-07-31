@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Travis;
 
 use Icecave\Archer\Configuration\ComposerConfigurationReader;

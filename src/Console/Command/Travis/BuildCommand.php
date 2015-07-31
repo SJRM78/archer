@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command\Travis;
 
 use Icecave\Archer\Coveralls\CoverallsClient;
@@ -6,7 +7,6 @@ use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Support\Isolator;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

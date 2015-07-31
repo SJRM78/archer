@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\Configuration\ConfigurationFileFinder;

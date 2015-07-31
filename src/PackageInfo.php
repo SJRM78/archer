@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer;
 
 class PackageInfo

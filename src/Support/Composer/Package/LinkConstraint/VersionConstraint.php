@@ -1,4 +1,5 @@
 <?php
+
 // @codeCoverageIgnoreStart
 
 /*
@@ -14,7 +15,7 @@
 namespace Icecave\Archer\Support\Composer\Package\LinkConstraint;
 
 /**
- * Constrains a package link based on package version
+ * Constrains a package link based on package version.
  *
  * Version numbers must be compatible with version_compare
  *
@@ -26,7 +27,7 @@ class VersionConstraint extends SpecificConstraint
     private $version;
 
     /**
-     * Sets operator and version to compare a package with
+     * Sets operator and version to compare a package with.
      *
      * @param string $operator A comparison operator
      * @param string $version  A version to compare to
@@ -55,7 +56,6 @@ class VersionConstraint extends SpecificConstraint
     }
 
     /**
-     *
      * @param VersionConstraint $provider
      */
     public function matchSpecific(VersionConstraint $provider)
@@ -96,6 +96,6 @@ class VersionConstraint extends SpecificConstraint
 
     public function __toString()
     {
-        return $this->operator.' '.$this->version;
+        return $this->operator . ' ' . $this->version;
     }
 }

@@ -1,9 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Console\Command\Internal;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 
 class UpdateBinariesCommand extends AbstractInternalCommand
 {

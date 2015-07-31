@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Support\Liftoff;
 
 use Icecave\Archer\Support\Isolator;
@@ -87,7 +88,7 @@ class Launcher
      */
     protected function launchWindows($target, array $arguments)
     {
-        array_unshift($arguments, "liftoff", $target);
+        array_unshift($arguments, 'liftoff', $target);
 
         $this->launchCommand('start', $arguments);
     }

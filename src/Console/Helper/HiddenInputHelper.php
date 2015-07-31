@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Helper;
 
 use ErrorException;

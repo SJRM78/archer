@@ -1,4 +1,5 @@
 <?php
+
 // @codeCoverageIgnoreStart
 
 /*
@@ -14,7 +15,7 @@
 namespace Icecave\Archer\Support\Composer\Package\LinkConstraint;
 
 /**
- * Provides a common basis for specific package link constraints
+ * Provides a common basis for specific package link constraints.
  *
  * @author Nils Adermann <naderman@naderman.de>
  */
@@ -51,5 +52,4 @@ abstract class SpecificConstraint implements LinkConstraintInterface
     // implementations must implement a method of this format:
     // not declared abstract here because type hinting violates parameter coherence (TODO right word?)
     // public function matchSpecific(<SpecificConstraintType> $provider);
-
 }

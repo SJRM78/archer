@@ -11,9 +11,9 @@
 
 namespace Icecave\Archer\Support\Liftoff;
 
-use Phunky;
-use PHPUnit_Framework_TestCase;
 use Icecave\Archer\Support\Isolator;
+use PHPUnit_Framework_TestCase;
+use Phunky;
 
 class LauncherTest extends PHPUnit_Framework_TestCase
 {

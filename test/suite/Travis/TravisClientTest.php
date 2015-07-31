@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Travis;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 
 class TravisClientTest extends PHPUnit_Framework_TestCase
 {
@@ -37,13 +38,11 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->fileSystem)
             ->read(Phunky::anyParameters())
-            ->thenReturn('{"key": "foo"}')
-        ;
+            ->thenReturn('{"key": "foo"}');
 
         $this->assertSame('foo', $this->client->publicKey('bar', 'baz'));
         Phunky::verify($this->fileSystem)
-            ->read('https://api.travis-ci.org/repos/bar/baz/key')
-        ;
+            ->read('https://api.travis-ci.org/repos/bar/baz/key');
     }
 
     public function testEncryptEnvironment()
@@ -54,8 +53,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
                 Phunky::setReference('baz'),
                 'PUBLIC KEY foo'
             )
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         $actual = $this->client->encryptEnvironment('RSA PUBLIC KEY foo', 'bar');
         $expected = base64_encode('baz');
 
@@ -75,8 +73,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
                 Phunky::setReference('baz'),
                 'PUBLIC KEY foo'
             )
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         $actual = $this->client->encrypt('RSA PUBLIC KEY foo', 'bar');
         $expected = base64_encode('baz');
 
@@ -92,8 +89,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->openssl_public_encrypt(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->setExpectedException(
             'RuntimeException',

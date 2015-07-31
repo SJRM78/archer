@@ -1,9 +1,10 @@
 <?php
+
 namespace Icecave\Archer\Travis;
 
-use RuntimeException;
 use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\Support\Isolator;
+use RuntimeException;
 
 class TravisClient
 {

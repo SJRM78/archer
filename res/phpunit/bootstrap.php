@@ -1,4 +1,5 @@
 <?php
+
 use Icecave\Archer\Support\Composer\Autoload\ClassMapGenerator;
 
 // Find the root path of the project being tested ...
@@ -23,7 +24,6 @@ if (class_exists('Phake')) {
 // Add an autoloader for test fixtures, if required ...
 $projectTestFixturePath = ARCHER_ROOT_PATH . '/test/src';
 if (is_dir($projectTestFixturePath)) {
-
     $buildClassMap = function () use ($projectTestFixturePath) {
         $iter = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -42,7 +42,6 @@ if (is_dir($projectTestFixturePath)) {
 
         return $classMap;
     };
-
 
     $autoloader->addClassMap($buildClassMap());
 }

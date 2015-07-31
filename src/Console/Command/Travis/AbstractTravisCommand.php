@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command\Travis;
 
 use Icecave\Archer\Support\Isolator;

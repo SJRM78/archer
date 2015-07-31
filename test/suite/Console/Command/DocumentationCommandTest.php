@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\StringInput;

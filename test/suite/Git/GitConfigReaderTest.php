@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Git;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 
 class GitConfigReaderTest extends PHPUnit_Framework_TestCase
 {
@@ -21,12 +22,10 @@ class GitConfigReaderTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->processFactory)
             ->create(Phunky::anyParameters())
-            ->thenReturn($this->process)
-        ;
+            ->thenReturn($this->process);
         Phunky::when($this->process)
             ->isSuccessful(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
 
         $configuration = <<<EOD
 user.name=Test Ease
@@ -51,8 +50,7 @@ branch.3.0.0.merge=refs/heads/3.0.0
 EOD;
         Phunky::when($this->process)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn($configuration)
-        ;
+            ->thenReturn($configuration);
     }
 
     public function testConstructor()
@@ -86,8 +84,7 @@ remote.origin.url=derp
 EOD;
         Phunky::when($this->process)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn($configuration)
-        ;
+            ->thenReturn($configuration);
 
         $this->assertFalse($this->reader->isGitHubRepository());
     }
@@ -113,8 +110,7 @@ remote.origin.url=derp
 EOD;
         Phunky::when($this->process)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn($configuration)
-        ;
+            ->thenReturn($configuration);
 
         $this->setExpectedException(
             'RuntimeException',
@@ -136,8 +132,7 @@ remote.origin.url=derp
 EOD;
         Phunky::when($this->process)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn($configuration)
-        ;
+            ->thenReturn($configuration);
 
         $this->setExpectedException(
             'RuntimeException',
@@ -150,12 +145,10 @@ EOD;
     {
         Phunky::when($this->process)
             ->isSuccessful(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->process)
             ->getErrorOutput(Phunky::anyParameters())
-            ->thenReturn('Bar.')
-        ;
+            ->thenReturn('Bar.');
 
         $this->setExpectedException(
             'RuntimeException',

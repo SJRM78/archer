@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\FileSystem;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 
 class FileSystemTest extends PHPUnit_Framework_TestCase
 {
@@ -19,8 +20,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->isolator)
             ->file_exists(Phunky::anyParameters())
             ->thenReturn(true)
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->assertTrue($this->fileSystem->exists('foo'));
         $this->assertFalse($this->fileSystem->exists('bar'));
@@ -34,8 +34,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->file_exists(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -48,8 +47,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->isolator)
             ->is_file(Phunky::anyParameters())
             ->thenReturn(true)
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->assertTrue($this->fileSystem->fileExists('foo'));
         $this->assertFalse($this->fileSystem->fileExists('bar'));
@@ -63,8 +61,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->is_file(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -77,8 +74,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
 
         $this->assertTrue($this->fileSystem->directoryExists('foo'));
         $this->assertFalse($this->fileSystem->directoryExists('bar'));
@@ -92,8 +88,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -105,8 +100,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->file_get_contents(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
 
         $this->assertSame('bar', $this->fileSystem->read('foo'));
         Phunky::verify($this->isolator)->file_get_contents('foo');
@@ -116,8 +110,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->file_get_contents(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -129,8 +122,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->scandir(Phunky::anyParameters())
-            ->thenReturn(array('.', '..', 'bar', 'baz'))
-        ;
+            ->thenReturn(array('.', '..', 'bar', 'baz'));
 
         $this->assertSame(array('bar', 'baz'), $this->fileSystem->listPaths('foo'));
         Phunky::verify($this->isolator)->scandir('foo');
@@ -140,8 +132,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->scandir(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -153,12 +144,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         $this->fileSystem->write('foo/bar', 'baz');
 
         Phunky::inOrder(
@@ -173,12 +162,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         $this->fileSystem->write('foo/bar', 'baz');
 
         Phunky::inOrder(
@@ -193,16 +180,13 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->file_put_contents(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -214,8 +198,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -227,12 +210,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         $this->fileSystem->copy('foo', 'bar/baz');
 
         Phunky::inOrder(
@@ -247,12 +228,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         $this->fileSystem->copy('foo', 'bar/baz');
 
         Phunky::inOrder(
@@ -267,16 +246,13 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->copy(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -288,8 +264,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -301,12 +276,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         $this->fileSystem->move('foo', 'bar/baz');
 
         Phunky::inOrder(
@@ -321,12 +294,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('bar')
-        ;
+            ->thenReturn('bar');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         $this->fileSystem->move('foo', 'bar/baz');
 
         Phunky::inOrder(
@@ -341,16 +312,13 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->rename(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -362,8 +330,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->dirname(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\ReadException'
@@ -382,8 +349,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->mkdir(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -402,8 +368,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->chmod(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -415,8 +380,7 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         $this->fileSystem->delete('foo');
 
         Phunky::inOrder(
@@ -430,12 +394,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->isolator)
             ->unlink(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'
@@ -448,12 +410,10 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
             ->thenReturn(true)
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($this->isolator)
             ->scandir(Phunky::anyParameters())
-            ->thenReturn(array('.', '..', 'bar', 'baz'))
-        ;
+            ->thenReturn(array('.', '..', 'bar', 'baz'));
         $this->fileSystem->delete('foo');
 
         Phunky::inOrder(
@@ -472,16 +432,13 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Phunky::when($this->isolator)
             ->is_dir(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($this->isolator)
             ->scandir(Phunky::anyParameters())
-            ->thenReturn(array('.', '..'))
-        ;
+            ->thenReturn(array('.', '..'));
         Phunky::when($this->isolator)
             ->rmdir(Phunky::anyParameters())
-            ->thenThrow(Phunky::mock('ErrorException'))
-        ;
+            ->thenThrow(Phunky::mock('ErrorException'));
 
         $this->setExpectedException(
             __NAMESPACE__ . '\Exception\WriteException'

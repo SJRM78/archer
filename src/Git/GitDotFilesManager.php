@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Git;
 
 use Icecave\Archer\FileSystem\FileSystem;
@@ -36,7 +37,7 @@ class GitDotFilesManager
     {
         $files = array(
             '.gitignore'     => false,
-            '.gitattributes' => false
+            '.gitattributes' => false,
         );
 
         foreach ($files as $filename => $updated) {

@@ -1,10 +1,11 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\FileSystem\Exception\ReadException;
 use Icecave\Archer\Git\GitConfigReaderFactory;
-use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Git\GitDotFilesManager;
+use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Process\ProcessFactory;
 use Icecave\Archer\Travis\TravisClient;
 use Icecave\Archer\Travis\TravisConfigManager;

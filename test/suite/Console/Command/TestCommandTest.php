@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use ReflectionObject;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -50,41 +51,34 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
 
         Phunky::when($this->command)
             ->getApplication(Phunky::anyParameters())
-            ->thenReturn($this->application)
-        ;
+            ->thenReturn($this->application);
 
         Phunky::when($this->application)
             ->rawArguments(Phunky::anyParameters())
-            ->thenReturn(array('foo', 'bar'))
-        ;
+            ->thenReturn(array('foo', 'bar'));
 
         Phunky::when($this->phpConfigurationReader)
             ->read(Phunky::anyParameters())
             ->thenReturn(array(
                 'baz' => 'qux',
                 'doom' => 'splat',
-            ))
-        ;
+            ));
 
         Phunky::when($this->configurationFileFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('/path/to/phpunit.xml')
-        ;
+            ->thenReturn('/path/to/phpunit.xml');
 
         Phunky::when($this->processFactory)
             ->createFromArray(Phunky::anyParameters())
-            ->thenReturn($this->process)
-        ;
+            ->thenReturn($this->process);
 
         Phunky::when($this->phpFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('/path/to/php')
-        ;
+            ->thenReturn('/path/to/php');
 
         Phunky::when($this->phpunitFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('/path/to/phpunit')
-        ;
+            ->thenReturn('/path/to/phpunit');
 
         $this->reflector = new ReflectionObject($this->command);
         $this->executeMethod = $this->reflector->getMethod('execute');
@@ -103,8 +97,7 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
                 function ($data) use ($that) {
                     $that->stdErr .= $data;
                 }
-            )
-        ;
+            );
 
         $this->stdOut = '';
         $this->output = Phunky::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
@@ -114,20 +107,17 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
                 function ($data) use ($that) {
                     $that->stdOut .= $data;
                 }
-            )
-        ;
+            );
         Phunky::when($this->output)
             ->writeln(Phunky::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
                     $that->stdOut .= $data . "\n";
                 }
-            )
-        ;
+            );
         Phunky::when($this->output)
             ->getErrorOutput(Phunky::anyParameters())
-            ->thenReturn($this->errorOutput)
-        ;
+            ->thenReturn($this->errorOutput);
 
         Phunky::when($this->process)
             ->run(Phunky::anyParameters())
@@ -138,8 +128,7 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
 
                     return 111;
                 }
-            )
-        ;
+            );
     }
 
     public function testConfigure()

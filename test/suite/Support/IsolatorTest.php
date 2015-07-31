@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Support;
 
 use PHPUnit_Framework_TestCase;

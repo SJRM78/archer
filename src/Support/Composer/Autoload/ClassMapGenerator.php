@@ -1,4 +1,5 @@
 <?php
+
 // @codeCoverageIgnoreStart
 
 /*
@@ -15,14 +16,14 @@
 namespace Icecave\Archer\Support\Composer\Autoload;
 
 /**
- * ClassMapGenerator
+ * ClassMapGenerator.
  *
  * @author Gyula Sallai <salla016@gmail.com>
  */
 class ClassMapGenerator
 {
     /**
-     * Extract the classes in the given file
+     * Extract the classes in the given file.
      *
      * @param  string            $path The file to check
      * @throws \RuntimeException
@@ -35,11 +36,11 @@ class ClassMapGenerator
         try {
             $contents = php_strip_whitespace($path);
         } catch (\Exception $e) {
-            throw new \RuntimeException('Could not scan for classes inside '.$path.": \n".$e->getMessage(), 0, $e);
+            throw new \RuntimeException('Could not scan for classes inside ' . $path . ": \n" . $e->getMessage(), 0, $e);
         }
 
         // return early if there is no chance of matching anything in this file
-        if (!preg_match('{\b(?:class|interface'.$traits.')\s}i', $contents)) {
+        if (!preg_match('{\b(?:class|interface' . $traits . ')\s}i', $contents)) {
             return array();
         }
 
@@ -61,7 +62,7 @@ class ClassMapGenerator
 
         preg_match_all('{
             (?:
-                 \b(?<![\$:>])(?P<type>class|interface'.$traits.') \s+ (?P<name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
+                 \b(?<![\$:>])(?P<type>class|interface' . $traits . ') \s+ (?P<name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
                | \b(?<![\$:>])(?P<ns>namespace) (?P<nsname>\s+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?:\s*\\\\\s*[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*)? \s*[\{;]
             )
         }ix', $contents, $matches);
@@ -69,7 +70,7 @@ class ClassMapGenerator
         $classes = array();
         $namespace = '';
 
-        for ($i = 0, $len = count($matches['type']); $i < $len; $i++) {
+        for ($i = 0, $len = count($matches['type']); $i < $len; ++$i) {
             if (!empty($matches['ns'][$i])) {
                 $namespace = str_replace(array(' ', "\t", "\r", "\n"), '', $matches['nsname'][$i]) . '\\';
             } else {

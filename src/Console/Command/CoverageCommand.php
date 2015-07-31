@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\Configuration\ConfigurationFileFinder;
@@ -7,13 +8,11 @@ use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\Process\PHPUnitExecutableFinder;
 use Icecave\Archer\Process\ProcessFactory;
 use Icecave\Archer\Support\Liftoff\Launcher;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 
 class CoverageCommand extends AbstractPHPUnitCommand
 {

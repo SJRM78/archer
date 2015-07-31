@@ -1,8 +1,9 @@
 <?php
+
 namespace Icecave\Archer\Process;
 
-use Phunky;
 use PHPUnit_Framework_TestCase;
+use Phunky;
 use RuntimeException;
 
 class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
@@ -53,8 +54,7 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         unset($_SERVER['TRAVIS']);
         Phunky::when($this->executableFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         $actual = $this->finder->find();
         $_SERVER = $server;
 
@@ -68,8 +68,7 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         unset($_SERVER['TRAVIS']);
         Phunky::when($this->executableFinder)
             ->find(Phunky::anyParameters())
-            ->thenReturn(null)
-        ;
+            ->thenReturn(null);
         $error = null;
         try {
             $this->finder->find();
@@ -88,16 +87,13 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         $process = Phunky::mock('Symfony\Component\Process\Process');
         Phunky::when($this->processFactory)
             ->create(Phunky::anyParameters())
-            ->thenReturn($process)
-        ;
+            ->thenReturn($process);
         Phunky::when($process)
             ->isSuccessful(Phunky::anyParameters())
-            ->thenReturn(true)
-        ;
+            ->thenReturn(true);
         Phunky::when($process)
             ->getOutput(Phunky::anyParameters())
-            ->thenReturn('foo')
-        ;
+            ->thenReturn('foo');
         $actual = $this->finder->find();
         $_SERVER = $server;
 
@@ -116,20 +112,16 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         $process = Phunky::mock('Symfony\Component\Process\Process');
         Phunky::when($this->isolator)
             ->getenv(Phunky::anyParameters())
-            ->thenReturn('true')
-        ;
+            ->thenReturn('true');
         Phunky::when($this->processFactory)
             ->create(Phunky::anyParameters())
-            ->thenReturn($process)
-        ;
+            ->thenReturn($process);
         Phunky::when($process)
             ->isSuccessful(Phunky::anyParameters())
-            ->thenReturn(false)
-        ;
+            ->thenReturn(false);
         Phunky::when($process)
             ->getErrorOutput(Phunky::anyParameters())
-            ->thenReturn('Foo.')
-        ;
+            ->thenReturn('Foo.');
         $error = null;
         try {
             $this->finder->find();

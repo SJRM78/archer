@@ -1,4 +1,5 @@
 <?php
+
 namespace Icecave\Archer\Process;
 
 use Symfony\Component\Process\Process;
