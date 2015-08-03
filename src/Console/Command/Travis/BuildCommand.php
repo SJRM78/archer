@@ -123,7 +123,7 @@ class BuildCommand extends AbstractTravisCommand
             }
         }
 
-        if ($publishArtifacts || $publishCoveralls) {
+        if ($publishArtifacts) {
             // Run tests with reports
             $testsExitCode = 255;
             $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
@@ -153,6 +153,27 @@ class BuildCommand extends AbstractTravisCommand
             );
 
             if (0 === $coverallsExitCode) {
+                $output->writeln('done.');
+            } else {
+                $output->writeln('failed.');
+            }
+        }
+
+        $codecovExitCode = 0;
+
+        if ($publishArtifacts) {
+            $output->write('Publishing Codecov data... ');
+
+            $codecovExitCode = 255;
+            $this->isolator->passthru(
+                sprintf(
+                    'curl -s https://codecov.io/bash > .codecov.tmp && bash .codecov.tmp -f %s && rm -f .codecov.tmp',
+                    escapeshellarg($packageRoot . '/artifacts/tests/coverage/coverage.xml')
+                ),
+                $codecovExitCode
+            );
+
+            if (0 === $codecovExitCode) {
                 $output->writeln('done.');
             } else {
                 $output->writeln('failed.');
@@ -202,6 +223,9 @@ class BuildCommand extends AbstractTravisCommand
         }
         if ($coverallsExitCode !== 0) {
             return $coverallsExitCode;
+        }
+        if ($codecovExitCode !== 0) {
+            return $codecovExitCode;
         }
         if ($documentationExitCode !== 0) {
             return $documentationExitCode;
