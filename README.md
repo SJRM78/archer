@@ -1,8 +1,12 @@
 # Archer
 
 [![Build Status]](https://travis-ci.org/IcecaveStudios/archer)
-[![Test Coverage]](https://coveralls.io/r/IcecaveStudios/archer?branch=develop)
+[![Test Coverage]](https://codecov.io/github/IcecaveStudios/archer)
 [![SemVer]](http://semver.org)
+
+[Build Status]: http://img.shields.io/travis/IcecaveStudios/archer/develop.svg?style=flat-square
+[Test Coverage]: https://img.shields.io/codecov/c/github/IcecaveStudios/archer/develop.svg?style=flat-square
+[SemVer]: http://img.shields.io/:semver-1.3.2-brightgreen.svg?style=flat-square
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
@@ -11,21 +15,21 @@ help improve the quality of a project's test suite and reporting tools.
 The use of **Archer** requires that the host project conforms to a set of [conventions](#requirements). In return, it
 provides the following benefits:
 
-* Configuration-free, best-practice [unit testing](#unit-testing) and [test coverage reports](#test-coverage-reports)
+- Configuration-free, best-practice [unit testing](#unit-testing) and [test coverage reports](#test-coverage-reports)
   with [PHPUnit] and [Xdebug].
-* Configuration-free generation of [API documentation](#api-documentation) using [Sami].
-* Automated [configuration](#automated-configuration) of repository and [Travis CI].
-* [Build artifact publication](#build-artifact-publication) to project [GitHub Pages].
-* Configuration-free integration with [Coveralls] for excellent test coverage metrics.
+- Configuration-free generation of [API documentation](#api-documentation) using [Sami].
+- Automated [configuration](#automated-configuration) of repository and [Travis CI].
+- [Build artifact publication](#build-artifact-publication) to project [GitHub Pages].
+- Configuration-free integration with [Codecov] for excellent test coverage metrics.
 
 ## Requirements
 
-* [PHPUnit] **must** be available in the user's PATH.
-* Projects **must** use [Composer].
-* Projects **must** conform to the [expected project layout](#expected-project-layout).
-* Projects **must** use a PHP namespace with a vendor and project prefix, for example `Icecave\Archer`.
-* The [Xdebug] PHP extension is required for [test coverage reports](#test-coverage-reports).
-* The [openssl] PHP extension is required for [build artifact publication](#build-artifact-publication).
+- Projects **must** use [Composer].
+- Projects **must** conform to the [expected project layout](#expected-project-layout).
+- Projects **must** use a PHP namespace with a vendor and project prefix, for example `Icecave\Archer`.
+- [PHPUnit] **must** be installed as a dev dependency, or available in the user's PATH.
+- The [Xdebug] PHP extension is required for [test coverage reports](#test-coverage-reports).
+- The [openssl] PHP extension is required for [build artifact publication](#build-artifact-publication).
 
 ## Getting started
 
@@ -154,12 +158,13 @@ Generating code coverage report in HTML format ... done
 
 ![Example Archer coverage report](http://icecavestudios.github.io/archer/doc/img/example-coverage-report.png)
 
-For a live example see the [test coverage report](http://icecavestudios.github.io/archer/artifacts/tests/coverage/) for **Archer's** own test suite.
+For a live example see the [test coverage report](http://icecavestudios.github.io/archer/artifacts/tests/coverage/) for
+**Archer's** own test suite.
 
-#### Coveralls integration
+#### Codecov integration
 
-**Archer** provides support for [Coveralls]. There is nothing to configure; simply enable Coveralls support for the
-project, and **Archer** will publish test coverage information to Coveralls when a build occurs on [Travis CI].
+**Archer** provides support for [Codecov]. There is nothing to configure; **Archer** will publish test coverage
+information to Codecov when a build occurs on [Travis CI].
 
 ## API documentation
 
@@ -190,11 +195,11 @@ consistent across multiple projects.
 
 The generated configuration ensures that:
 
-* Travis CI knows how to run the tests, build the coverage report, and publish build artifacts.
-* Travis CI builds against all relevant versions of PHP.
-* Travis CI builds are much less likely to fail because of GitHub API throttling.
-* Test and build artifacts are ignored by Git.
-* Archived versions of projects do not include development artifacts like the test suite.
+- Travis CI knows how to run the tests, build the coverage report, and publish build artifacts.
+- Travis CI builds against all relevant versions of PHP.
+- Travis CI builds are much less likely to fail because of GitHub API throttling.
+- Test and build artifacts are ignored by Git.
+- Archived versions of projects do not include development artifacts like the test suite.
 
 #### Update command usage (without artifact publishing support)
 
@@ -230,7 +235,8 @@ The directory structure is as follows:
 ##### Published test coverage report
 
 Once published, a project's test coverage report is available through GitHub's [Pages][github pages] system. As an
-example, **Archer's** own coverage reports are published to http://icecavestudios.github.io/archer/artifacts/tests/coverage/.
+example, **Archer's** own coverage reports are published to
+http://icecavestudios.github.io/archer/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
@@ -239,26 +245,17 @@ Note that the above URL redirects to a custom domain, but it is still served thr
 To quickly convey information about the quality of a project it is often desirable to use 'badges' (or 'shields') that
 can easily be displayed in a project's README.md or other documentation, such as at the top of this document.
 
-Although [Coveralls] provides dynamic badges to convey test coverage information, **Archer** automatically
-publishes a similar badge image when [Coveralls] is not enabled.
-
-<!-- references -->
-[Build Status]: http://img.shields.io/travis/IcecaveStudios/archer/develop.svg?style=flat-square
-[Test Coverage]: http://img.shields.io/coveralls/IcecaveStudios/archer/develop.svg?style=flat-square
-[SemVer]: http://img.shields.io/:semver-1.3.2-brightgreen.svg?style=flat-square
-
 ## Contact us
 
-* Follow [@IcecaveStudios](https://twitter.com/IcecaveStudios) on Twitter
-* Visit the [Icecave Studios website](http://icecave.com.au)
-* Join `#icecave` on [irc.freenode.net](http://webchat.freenode.net?channels=icecave)
+- Follow [@IcecaveStudios](https://twitter.com/IcecaveStudios) on Twitter
+- Visit the [Icecave Studios website](http://icecave.com.au)
+- Join `#icecave` on [irc.freenode.net](http://webchat.freenode.net?channels=icecave)
 
-<!-- references -->
+[codecov]: https://codecov.io/
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
-[coveralls]: https://coveralls.io/
-[github pages]: http://pages.github.com/
 [github default branch]: https://help.github.com/articles/setting-the-default-branch-for-a-repository
+[github pages]: http://pages.github.com/
 [openssl]: http://php.net/openssl
 [pathogen]: https://github.com/eloquent/pathogen
 [phpunit's test doubles]: http://www.phpunit.de/manual/current/en/test-doubles.html
