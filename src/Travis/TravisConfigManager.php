@@ -154,6 +154,8 @@ class TravisConfigManager
      */
     public function updateConfig($archerPackageRoot, $packageRoot)
     {
+        $this->moveLegacyFiles($packageRoot);
+
         $source = sprintf('%s/res/travis/travis.install.php', $archerPackageRoot);
         $target = sprintf('%s/.archer/travis.install', $packageRoot);
         $this->fileSystem()->copy($source, $target);
@@ -315,6 +317,32 @@ class TravisConfigManager
         }
 
         return $allowFailureVersions;
+    }
+
+    private function moveLegacyFiles($packageRoot)
+    {
+        $fileSystem = $this->fileSystem();
+
+        $oldPath = sprintf('%s/.travis.env', $packageRoot);
+        $newPath = sprintf('%s/.archer/travis.env', $packageRoot);
+
+        if ($fileSystem->fileExists($oldPath)) {
+            $fileSystem->move($oldPath, $newPath);
+        }
+
+        $oldPath = sprintf('%s/.travis.install', $packageRoot);
+        $newPath = sprintf('%s/.archer/travis.install', $packageRoot);
+
+        if ($fileSystem->fileExists($oldPath)) {
+            $fileSystem->move($oldPath, $newPath);
+        }
+
+        $oldPath = sprintf('%s/.travis.key', $packageRoot);
+        $newPath = sprintf('%s/.archer/travis.key', $packageRoot);
+
+        if ($fileSystem->fileExists($oldPath)) {
+            $fileSystem->move($oldPath, $newPath);
+        }
     }
 
     /**
