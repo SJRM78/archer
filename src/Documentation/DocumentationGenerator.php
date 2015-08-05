@@ -77,11 +77,13 @@ class DocumentationGenerator
             }
         }
 
-        $process = $this->processFactory->create(
-            $sami,
-            'update',
-            './vendor/icecave/archer/res/sami/sami.php'
-        );
+        $configPath = './.sami';
+
+        if (!$this->fileSystem->fileExists($configPath)) {
+            $configPath = './vendor/icecave/archer/res/sami/sami.php';
+        }
+
+        $process = $this->processFactory->create($sami, 'update', $configPath);
         $process->run();
 
         if (!$process->isSuccessful()) {

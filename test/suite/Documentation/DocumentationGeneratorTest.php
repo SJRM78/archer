@@ -66,6 +66,20 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGenerateWithCustomConfig()
+    {
+        $this->executableFinder->find('sami')->returns('/path/to/sami');
+        $this->fileSystem->fileExists('./.sami')->returns(true);
+        $this->subject->generate();
+
+        x\inOrder(
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api'),
+            $this->processFactory->create->calledWith('/path/to/sami', 'update', './.sami'),
+            $this->process->run->called(),
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api-cache')
+        );
+    }
+
     public function testGenerateFailureNotFound()
     {
         $this->setExpectedException('RuntimeException', 'Unable to find Sami executable.');
