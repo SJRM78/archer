@@ -40,8 +40,8 @@ The use of *Archer* requires that the host project conforms to a set of
   example `Icecave\Archer`.
 - [PHPUnit] **must** be installed as a dev dependency, or available in the
   user's PATH.
-- [Sami] **must** be installed as a dev dependency, or available in the
-  user's PATH.
+- If documentation generation is required, [Sami] **must** be installed as a dev
+  dependency, or available in the user's PATH.
 - The [Xdebug] PHP extension is required for [test coverage reports].
 - The [openssl] PHP extension is required for [build artifact publication].
 

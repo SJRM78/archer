@@ -58,6 +58,21 @@ class DocumentationGenerator
         return $this->processFactory;
     }
 
+    public function isAvailable()
+    {
+        $sami = './vendor/bin/sami.php';
+
+        if (!$this->fileSystem->fileExists($sami)) {
+            $sami = $this->executableFinder->find('sami');
+
+            if (null === $sami) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function generate()
     {
         $buildPath = './artifacts/documentation/api';

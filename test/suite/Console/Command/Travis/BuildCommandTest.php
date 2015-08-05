@@ -4,6 +4,7 @@ namespace Icecave\Archer\Console\Command\Travis;
 
 use Eloquent\Phony\Phpunit as x;
 use Icecave\Archer\Console\Application;
+use Icecave\Archer\Documentation\DocumentationGenerator;
 use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Support\Isolator;
@@ -15,6 +16,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->githubClient = x\mock('Icecave\Archer\GitHub\GitHubClient');
+        $this->documentationGenerator = x\mock('Icecave\Archer\Documentation\DocumentationGenerator');
         $this->fileSystem = x\mock('Icecave\Archer\FileSystem\FileSystem');
         $this->isolator = x\mock(Isolator::className());
 
@@ -22,6 +24,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $this->subject = new BuildCommand(
             $this->githubClient->mock(),
+            $this->documentationGenerator->mock(),
             $this->fileSystem->mock(),
             $this->isolator->mock()
         );
@@ -44,6 +47,8 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->assertSame($this->githubClient->mock(), $this->subject->githubClient());
+        $this->assertSame($this->documentationGenerator->mock(), $this->subject->documentationGenerator());
+        $this->assertSame($this->fileSystem->mock(), $this->subject->fileSystem());
     }
 
     public function testConstructorDefaults()
@@ -51,6 +56,8 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->subject = new BuildCommand();
 
         $this->assertEquals(new GitHubClient(), $this->subject->githubClient());
+        $this->assertEquals(new DocumentationGenerator(), $this->subject->documentationGenerator());
+        $this->assertEquals(new FileSystem(), $this->subject->fileSystem());
     }
 
     public function testExecute()
@@ -110,6 +117,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
         $this->isolator->getenv('TRAVIS_PHP_VERSION')->returns('5.4');
         $this->isolator->passthru->setsArgument(1, 0)->returns();
+        $this->documentationGenerator->isAvailable->returns(true);
 
         $this->assertSame(0, $this->subject->run($this->input, $this->output->mock()));
         x\verify($this->githubClient)
@@ -162,6 +170,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->isolator->getenv('TRAVIS_PHP_VERSION')->returns('5.4');
         $this->isolator->passthru->setsArgument(1, 0)->returns();
         $this->isolator->passthru($expectedWoodhouseCommand, '*')->setsArgument(1, 222)->returns();
+        $this->documentationGenerator->isAvailable->returns(true);
 
         $this->assertSame(222, $this->subject->run($this->input, $this->output->mock()));
         x\verify($this->githubClient)

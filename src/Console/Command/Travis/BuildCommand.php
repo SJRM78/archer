@@ -2,6 +2,7 @@
 
 namespace Icecave\Archer\Console\Command\Travis;
 
+use Icecave\Archer\Documentation\DocumentationGenerator;
 use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Support\Isolator;
@@ -14,18 +15,22 @@ class BuildCommand extends AbstractTravisCommand
 {
     public function __construct(
         GitHubClient $githubClient = null,
+        DocumentationGenerator $documentationGenerator = null,
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
         if (null === $githubClient) {
             $githubClient = new GitHubClient();
         }
-
+        if (null === $documentationGenerator) {
+            $documentationGenerator = new DocumentationGenerator();
+        }
         if (null === $fileSystem) {
             $fileSystem = new FileSystem();
         }
 
         $this->githubClient = $githubClient;
+        $this->documentationGenerator = $documentationGenerator;
         $this->fileSystem = $fileSystem;
 
         parent::__construct($isolator);
@@ -37,6 +42,22 @@ class BuildCommand extends AbstractTravisCommand
     public function githubClient()
     {
         return $this->githubClient;
+    }
+
+    /**
+     * @return DocumentationGenerator
+     */
+    public function documentationGenerator()
+    {
+        return $this->documentationGenerator;
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -124,7 +145,7 @@ class BuildCommand extends AbstractTravisCommand
         $publishExitCode = 0;
         if ($publishArtifacts) {
             // Generate documentation
-            if ($this->isolator->is_dir($packageRoot . '/src')) {
+            if ($this->documentationGenerator->isAvailable()) {
                 $documentationExitCode = 255;
                 $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
             }
@@ -166,5 +187,6 @@ class BuildCommand extends AbstractTravisCommand
     }
 
     private $githubClient;
+    private $documentationGenerator;
     private $fileSystem;
 }

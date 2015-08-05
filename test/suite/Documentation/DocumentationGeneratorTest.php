@@ -38,6 +38,25 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new ProcessFactory(), $this->subject->processFactory());
     }
 
+    public function testIsAvailableWithDevDependency()
+    {
+        $this->fileSystem->fileExists('./vendor/bin/sami.php')->returns(true);
+
+        $this->assertTrue($this->subject->isAvailable());
+    }
+
+    public function testIsAvailableWithGlobal()
+    {
+        $this->executableFinder->find('sami')->returns('/path/to/sami');
+
+        $this->assertTrue($this->subject->isAvailable());
+    }
+
+    public function testIsAvailableNotFound()
+    {
+        $this->assertFalse($this->subject->isAvailable());
+    }
+
     public function testGenerateWithDevDependency()
     {
         $this->fileSystem->fileExists('./vendor/bin/sami.php')->returns(true);
