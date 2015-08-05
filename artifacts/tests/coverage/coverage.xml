@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1438761709">
-  <project timestamp="1438761709">
+<coverage generated="1438762145">
+  <project timestamp="1438762145">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -811,49 +811,49 @@
         <class name="DocumentationGenerator" namespace="Icecave\Archer\Documentation">
           <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="42" coveredelements="42"/>
         </class>
-        <line num="17" type="method" name="__construct" crap="4" count="41"/>
-        <line num="22" type="stmt" count="41"/>
+        <line num="17" type="method" name="__construct" crap="4" count="42"/>
+        <line num="22" type="stmt" count="42"/>
         <line num="23" type="stmt" count="37"/>
-        <line num="25" type="stmt" count="41"/>
+        <line num="25" type="stmt" count="42"/>
         <line num="26" type="stmt" count="37"/>
-        <line num="28" type="stmt" count="41"/>
+        <line num="28" type="stmt" count="42"/>
         <line num="29" type="stmt" count="37"/>
-        <line num="32" type="stmt" count="41"/>
-        <line num="33" type="stmt" count="41"/>
-        <line num="34" type="stmt" count="41"/>
-        <line num="35" type="stmt" count="41"/>
+        <line num="32" type="stmt" count="42"/>
+        <line num="33" type="stmt" count="42"/>
+        <line num="34" type="stmt" count="42"/>
+        <line num="35" type="stmt" count="42"/>
         <line num="40" type="method" name="fileSystem" crap="1" count="1"/>
         <line num="42" type="stmt" count="1"/>
         <line num="48" type="method" name="executableFinder" crap="1" count="1"/>
         <line num="50" type="stmt" count="1"/>
         <line num="56" type="method" name="processFactory" crap="1" count="1"/>
         <line num="58" type="stmt" count="1"/>
-        <line num="61" type="method" name="generate" crap="6" count="4"/>
-        <line num="63" type="stmt" count="4"/>
-        <line num="64" type="stmt" count="4"/>
-        <line num="66" type="stmt" count="4"/>
-        <line num="67" type="stmt" count="4"/>
-        <line num="70" type="stmt" count="4"/>
-        <line num="72" type="stmt" count="4"/>
-        <line num="73" type="stmt" count="2"/>
-        <line num="75" type="stmt" count="2"/>
+        <line num="61" type="method" name="generate" crap="7" count="5"/>
+        <line num="63" type="stmt" count="5"/>
+        <line num="64" type="stmt" count="5"/>
+        <line num="66" type="stmt" count="5"/>
+        <line num="67" type="stmt" count="5"/>
+        <line num="70" type="stmt" count="5"/>
+        <line num="72" type="stmt" count="5"/>
+        <line num="73" type="stmt" count="3"/>
+        <line num="75" type="stmt" count="3"/>
         <line num="76" type="stmt" count="1"/>
-        <line num="80" type="stmt" count="3"/>
-        <line num="81" type="stmt" count="3"/>
-        <line num="82" type="stmt" count="3"/>
-        <line num="84" type="stmt" count="3"/>
-        <line num="85" type="stmt" count="3"/>
-        <line num="87" type="stmt" count="3"/>
-        <line num="88" type="stmt" count="1"/>
-        <line num="89" type="stmt" count="1"/>
+        <line num="80" type="stmt" count="4"/>
+        <line num="82" type="stmt" count="4"/>
+        <line num="83" type="stmt" count="3"/>
+        <line num="86" type="stmt" count="4"/>
+        <line num="87" type="stmt" count="4"/>
+        <line num="89" type="stmt" count="4"/>
         <line num="90" type="stmt" count="1"/>
         <line num="91" type="stmt" count="1"/>
         <line num="92" type="stmt" count="1"/>
         <line num="93" type="stmt" count="1"/>
-        <line num="96" type="stmt" count="2"/>
-        <line num="97" type="stmt" count="2"/>
-        <line num="99" type="stmt" count="2"/>
-        <metrics loc="104" ncloc="90" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="42" coveredelements="42"/>
+        <line num="94" type="stmt" count="1"/>
+        <line num="95" type="stmt" count="1"/>
+        <line num="98" type="stmt" count="3"/>
+        <line num="99" type="stmt" count="3"/>
+        <line num="101" type="stmt" count="3"/>
+        <metrics loc="106" ncloc="92" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="42" coveredelements="42"/>
       </file>
     </package>
     <package name="Icecave\Archer\FileSystem\Exception">
@@ -1636,6 +1636,6 @@
         <metrics loc="368" ncloc="267" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="128" coveredstatements="125" elements="145" coveredelements="141"/>
       </file>
     </package>
-    <metrics files="37" loc="4151" ncloc="3233" classes="37" methods="174" coveredmethods="168" conditionals="0" coveredconditionals="0" statements="1199" coveredstatements="1138" elements="1373" coveredelements="1306"/>
+    <metrics files="37" loc="4153" ncloc="3235" classes="37" methods="174" coveredmethods="168" conditionals="0" coveredconditionals="0" statements="1199" coveredstatements="1138" elements="1373" coveredelements="1306"/>
   </project>
 </coverage>
