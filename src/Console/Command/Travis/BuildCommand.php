@@ -2,7 +2,6 @@
 
 namespace Icecave\Archer\Console\Command\Travis;
 
-use Icecave\Archer\Coveralls\CoverallsClient;
 use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Support\Isolator;
@@ -16,7 +15,6 @@ class BuildCommand extends AbstractTravisCommand
 {
     public function __construct(
         GitHubClient $githubClient = null,
-        CoverallsClient $coverallsClient = null,
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
@@ -24,16 +22,11 @@ class BuildCommand extends AbstractTravisCommand
             $githubClient = new GitHubClient();
         }
 
-        if (null === $coverallsClient) {
-            $coverallsClient = new CoverallsClient();
-        }
-
         if (null === $fileSystem) {
             $fileSystem = new FileSystem();
         }
 
         $this->githubClient = $githubClient;
-        $this->coverallsClient = $coverallsClient;
         $this->fileSystem = $fileSystem;
 
         parent::__construct($isolator);
@@ -45,14 +38,6 @@ class BuildCommand extends AbstractTravisCommand
     public function githubClient()
     {
         return $this->githubClient;
-    }
-
-    /**
-     * @return CoverallsClient
-     */
-    public function coverallsClient()
-    {
-        return $this->coverallsClient;
     }
 
     /**
@@ -80,13 +65,6 @@ class BuildCommand extends AbstractTravisCommand
             'The path to the root of the project.',
             '.'
         );
-
-        $this->addOption(
-            'always-publish',
-            'a',
-            InputOption::VALUE_NONE,
-            'Always publish test artifacts, even when using Coveralls.'
-        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -112,17 +90,6 @@ class BuildCommand extends AbstractTravisCommand
             $publishArtifacts = false;
         }
 
-        $publishCoveralls = false;
-        if ($isPublishVersion) {
-            $output->write('Checking for Coveralls... ');
-            $publishCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
-            if ($publishCoveralls) {
-                $output->writeln('enabled.');
-            } else {
-                $output->writeln('not enabled.');
-            }
-        }
-
         if ($publishArtifacts) {
             // Run tests with reports
             $testsExitCode = 255;
@@ -131,32 +98,6 @@ class BuildCommand extends AbstractTravisCommand
             // Run default tests
             $testsExitCode = 255;
             $this->isolator->passthru($archerRoot . '/bin/archer test', $testsExitCode);
-        }
-
-        $coverallsExitCode = 0;
-        if ($publishCoveralls) {
-            $output->write('Publishing Coveralls data... ');
-            $coverallsConfigPath = $packageRoot . '/.coveralls.yml';
-
-            if (!$this->isolator->file_exists($coverallsConfigPath)) {
-                $this->isolator->copy($archerRoot . '/res/coveralls/coveralls.yml', $coverallsConfigPath);
-            }
-
-            $coverallsExitCode = 255;
-            $this->isolator->passthru(
-                sprintf(
-                    '%s/vendor/bin/coveralls --config %s',
-                    $packageRoot,
-                    escapeshellarg($coverallsConfigPath)
-                ),
-                $coverallsExitCode
-            );
-
-            if (0 === $coverallsExitCode) {
-                $output->writeln('done.');
-            } else {
-                $output->writeln('failed.');
-            }
         }
 
         $codecovExitCode = 0;
@@ -197,15 +138,9 @@ class BuildCommand extends AbstractTravisCommand
             $command .= ' --auth-token-env ARCHER_TOKEN';
             $command .= ' --no-interaction';
             $command .= ' --verbose';
-
-            if ($publishCoveralls && !$input->getOption('always-publish')) {
-                // Remove test artifacts if coveralls is being used ...
-                $this->fileSystem->delete($packageRoot . '/artifacts/tests');
-            } else {
-                $command .= ' --coverage-image artifacts/images/coverage.png';
-                $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-                $command .= ' --image-theme buckler/buckler';
-            }
+            $command .= ' --coverage-image artifacts/images/coverage.png';
+            $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+            $command .= ' --image-theme buckler/buckler';
 
             $command = sprintf(
                 $command,
@@ -221,9 +156,6 @@ class BuildCommand extends AbstractTravisCommand
         if ($testsExitCode !== 0) {
             return $testsExitCode;
         }
-        if ($coverallsExitCode !== 0) {
-            return $coverallsExitCode;
-        }
         if ($codecovExitCode !== 0) {
             return $codecovExitCode;
         }
@@ -235,6 +167,5 @@ class BuildCommand extends AbstractTravisCommand
     }
 
     private $githubClient;
-    private $coverallsClient;
     private $fileSystem;
 }

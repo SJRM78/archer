@@ -41,7 +41,7 @@ class Application extends SymfonyApplication
 
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
 
-        $this->add(new Command\Travis\BuildCommand(null, null, $fileSystem, $isolator));
+        $this->add(new Command\Travis\BuildCommand(null, $fileSystem, $isolator));
     }
 
     /**

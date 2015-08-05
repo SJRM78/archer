@@ -4,6 +4,7 @@
 
 - **[BC BREAK]** Moved configuration files to `.archer` directory ([#27])
 - **[BC BREAK]** Removed dependency on Phake ([#80])
+- **[BC BREAK]** Removed support for Coveralls ([#110])
 - **[FIXED]** Fixed PHPUnit process isolation ([#101])
 - **[FIXED]** Fixed overzealous gitattributes patterns ([#104])
 - **[NEW]** HHVM support actually works ([#77])
@@ -19,6 +20,7 @@
 [#104]: https://github.com/IcecaveStudios/archer/issues/104
 [#108]: https://github.com/IcecaveStudios/archer/issues/108
 [#109]: https://github.com/IcecaveStudios/archer/issues/109
+[#110]: https://github.com/IcecaveStudios/archer/issues/110
 
 ## 1.3.2 (2015-03-26)
 
