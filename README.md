@@ -29,7 +29,7 @@ The use of *Archer* requires that the host project conforms to a set of
 [configuration]: #automated-configuration
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
 [conventions]: #requirements
-[sami]: https://github.com/fabpot/Sami
+[sami]: https://github.com/FriendsOfPHP/Sami
 [unit testing]: #unit-testing
 
 ## Requirements
@@ -39,6 +39,8 @@ The use of *Archer* requires that the host project conforms to a set of
 - Projects **must** use a PHP namespace with a vendor and project prefix, for
   example `Icecave\Archer`.
 - [PHPUnit] **must** be installed as a dev dependency, or available in the
+  user's PATH.
+- [Sami] **must** be installed as a dev dependency, or available in the
   user's PATH.
 - The [Xdebug] PHP extension is required for [test coverage reports].
 - The [openssl] PHP extension is required for [build artifact publication].

@@ -2,339 +2,83 @@
 
 namespace Icecave\Archer\Documentation;
 
-use Eloquent\Liberator\Liberator;
+use Eloquent\Phony\Phpunit as x;
+use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\Process\ProcessFactory;
 use PHPUnit_Framework_TestCase;
-use Phunky;
-use Sami\Sami;
-use stdClass;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\ExecutableFinder;
 
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
-
-        $this->fileSystem = Phunky::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->composerConfigReader = Phunky::mock(
-            'Icecave\Archer\Configuration\ComposerConfigurationReader'
-        );
-        $this->isolator = Phunky::mock('Icecave\Archer\Support\Isolator');
-        $this->generator = Phunky::partialMock(
-            __NAMESPACE__ . '\DocumentationGenerator',
-            $this->fileSystem,
-            $this->composerConfigReader,
-            $this->isolator
+        $this->fileSystem = x\mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->executableFinder = x\mock('Symfony\Component\Process\ExecutableFinder');
+        $this->processFactory = x\mock('Icecave\Archer\Process\ProcessFactory');
+        $this->subject = new DocumentationGenerator(
+            $this->fileSystem->mock(),
+            $this->executableFinder->mock(),
+            $this->processFactory->mock()
         );
 
-        Phunky::when($this->fileSystem)
-            ->read(Phunky::anyParameters())
-            ->thenReturn('{"name": "vendor/project"}');
-        Phunky::when($this->isolator)
-            ->sys_get_temp_dir()
-            ->thenReturn('/path/to/tmp');
-        Phunky::when($this->isolator)
-            ->uniqid(Phunky::anyParameters())
-            ->thenReturn('uniqid');
+        $this->process = x\mock('Symfony\Component\Process\Process');
+        $this->process->isSuccessful->returns(true);
+        $this->processFactory->create->returns($this->process->mock());
 
-        $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Vendor\\\\Project\\\\SubProject": "src"}}}'
-        );
-        $this->finder = Finder::create();
-        $this->sami = Phunky::mock('Sami\Sami');
-        $this->samiProject = Phunky::mock('Sami\Project');
-
-        Phunky::when($this->composerConfigReader)
-            ->read(Phunky::anyParameters())
-            ->thenReturn($this->composerConfiguration);
-        Phunky::when($this->sami)
-            ->offsetGet('project')
-            ->thenReturn($this->samiProject);
-    }
-
-    public function testConstructor()
-    {
-        $this->assertSame($this->fileSystem, $this->generator->fileSystem());
-        $this->assertSame(
-            $this->composerConfigReader,
-            $this->generator->composerConfigReader()
-        );
+        $this->fileSystem->directoryExists('./artifacts/documentation/api')->returns(true);
+        $this->fileSystem->directoryExists('./artifacts/documentation/api-cache')->returns(true);
     }
 
     public function testConstructorDefaults()
     {
-        $this->generator = new DocumentationGenerator();
+        $this->subject = new DocumentationGenerator();
 
-        $this->assertInstanceOf(
-            'Icecave\Archer\FileSystem\FileSystem',
-            $this->generator->fileSystem()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Configuration\ComposerConfigurationReader',
-            $this->generator->composerConfigReader()
+        $this->assertEquals(new FileSystem(), $this->subject->fileSystem());
+        $this->assertEquals(new ExecutableFinder(), $this->subject->executableFinder());
+        $this->assertEquals(new ProcessFactory(), $this->subject->processFactory());
+    }
+
+    public function testGenerateWithDevDependency()
+    {
+        $this->fileSystem->fileExists('./vendor/bin/sami.php')->returns(true);
+        $this->subject->generate();
+
+        x\inOrder(
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api'),
+            $this->processFactory->create
+                ->calledWith('./vendor/bin/sami.php', 'update', './vendor/icecave/archer/res/sami/sami.php'),
+            $this->process->run->called(),
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api-cache')
         );
     }
 
-    public function testGenerate()
+    public function testGenerateWithGlobal()
     {
-        Phunky::when($this->generator)
-            ->sourcePath(Phunky::anyParameters())
-            ->thenReturn('/path/to/source');
-        Phunky::when($this->generator)
-            ->createFinder(Phunky::anyParameters())
-            ->thenReturn($this->finder);
-        Phunky::when($this->generator)
-            ->createSami(Phunky::anyParameters())
-            ->thenReturn($this->sami);
-        Phunky::when($this->fileSystem)
-            ->directoryExists('foo/artifacts/documentation/api')
-            ->thenReturn(true);
-        $this->generator->generate('foo');
+        $this->executableFinder->find('sami')->returns('/path/to/sami');
+        $this->subject->generate();
 
-        Phunky::inOrder(
-            Phunky::verify($this->generator)->createFinder('/path/to/source'),
-            Phunky::verify($this->generator)->createSami(
-                $this->identicalTo($this->finder),
-                array(
-                    'title' => 'Project - SubProject API',
-                    'default_opened_level' => 3,
-                    'build_dir' => 'foo/artifacts/documentation/api',
-                    'cache_dir' => '/path/to/tmp/uniqid',
-                )
-            ),
-            Phunky::verify($this->fileSystem)->delete(
-                'foo/artifacts/documentation/api'
-            ),
-            Phunky::verify($this->samiProject)->update()
+        x\inOrder(
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api'),
+            $this->processFactory->create
+                ->calledWith('/path/to/sami', 'update', './vendor/icecave/archer/res/sami/sami.php'),
+            $this->process->run->called(),
+            $this->fileSystem->delete->calledWith('./artifacts/documentation/api-cache')
         );
     }
 
-    public function testGenerateDefaultPath()
+    public function testGenerateFailureNotFound()
     {
-        Phunky::when($this->generator)
-            ->sourcePath(Phunky::anyParameters())
-            ->thenReturn('/path/to/source');
-        Phunky::when($this->generator)
-            ->createFinder(Phunky::anyParameters())
-            ->thenReturn($this->finder);
-        Phunky::when($this->generator)
-            ->createSami(Phunky::anyParameters())
-            ->thenReturn($this->sami);
-        Phunky::when($this->fileSystem)
-            ->directoryExists('./artifacts/documentation/api')
-            ->thenReturn(true);
-        $this->generator->generate();
-
-        Phunky::inOrder(
-            Phunky::verify($this->generator)->createFinder('/path/to/source'),
-            Phunky::verify($this->generator)->createSami(
-                $this->identicalTo($this->finder),
-                array(
-                    'title' => 'Project - SubProject API',
-                    'default_opened_level' => 3,
-                    'build_dir' => './artifacts/documentation/api',
-                    'cache_dir' => '/path/to/tmp/uniqid',
-                )
-            ),
-            Phunky::verify($this->fileSystem)->delete(
-                './artifacts/documentation/api'
-            ),
-            Phunky::verify($this->samiProject)->update()
-        );
+        $this->setExpectedException('RuntimeException', 'Unable to find Sami executable.');
+        $this->subject->generate();
     }
 
-    public function testGenerateBuildDirNonExistant()
+    public function testGenerateFailureNotSuccessful()
     {
-        Phunky::when($this->generator)
-            ->sourcePath(Phunky::anyParameters())
-            ->thenReturn('/path/to/source');
-        Phunky::when($this->generator)
-            ->createFinder(Phunky::anyParameters())
-            ->thenReturn($this->finder);
-        Phunky::when($this->generator)
-            ->createSami(Phunky::anyParameters())
-            ->thenReturn($this->sami);
-        Phunky::when($this->fileSystem)
-            ->directoryExists('foo/artifacts/documentation/api')
-            ->thenReturn(false);
-        $this->generator->generate('foo');
+        $this->fileSystem->fileExists('./vendor/bin/sami.php')->returns(true);
+        $this->process->isSuccessful->returns(false);
+        $this->process->getErrorOutput->returns('Error message.');
 
-        Phunky::inOrder(
-            Phunky::verify($this->generator)->createFinder('/path/to/source'),
-            Phunky::verify($this->generator)->createSami(
-                $this->identicalTo($this->finder),
-                array(
-                    'title' => 'Project - SubProject API',
-                    'default_opened_level' => 3,
-                    'build_dir' => 'foo/artifacts/documentation/api',
-                    'cache_dir' => '/path/to/tmp/uniqid',
-                )
-            ),
-            Phunky::verify($this->samiProject)->update()
-        );
-        Phunky::verify($this->fileSystem, Phunky::never())->delete(
-            'foo/artifacts/documentation/api'
-        );
-    }
-
-    public function testSourcePath()
-    {
-        $this->assertSame(
-            'foo/src',
-            Liberator::liberate($this->generator)->sourcePath('foo')
-        );
-    }
-
-    public function testProjectNameWithSingleNamespace()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Project": "src"}}}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            'Project',
-            $generator->projectName($this->composerConfiguration)
-        );
-    }
-
-    public function testProjectNameFallback()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"name": "vendor/project"}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            'vendor/project',
-            $generator->projectName($this->composerConfiguration)
-        );
-    }
-
-    public function testOpenedLevelWithSingleNamespace()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Project": "src"}}}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            1,
-            $generator->openedLevel($this->composerConfiguration)
-        );
-    }
-
-    public function testOpenedLevelFallback()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"name": "vendor/project"}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            2,
-            $generator->openedLevel($this->composerConfiguration)
-        );
-    }
-
-    public function testOpenedLevelFallbackNoEntries()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {}}}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            2,
-            $generator->openedLevel($this->composerConfiguration)
-        );
-    }
-
-    public function testOpenedLevelFallbackNamespaceTooShort()
-    {
-        $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"": "src"}}}'
-        );
-        $generator = Liberator::liberate($this->generator);
-
-        $this->assertSame(
-            2,
-            $generator->openedLevel($this->composerConfiguration)
-        );
-    }
-
-    public function testProjectNameFailureUndefined()
-    {
-        $generator = Liberator::liberate($this->generator);
-
-        $this->setExpectedException('RuntimeException');
-        $generator->projectName(new stdClass());
-    }
-
-    public function testCreateFinder()
-    {
-        $finder = Liberator::liberate($this->generator)->createFinder(__DIR__);
-        $expected = Finder::create()->in(__DIR__);
-
-        $this->assertEquals($expected, $finder);
-    }
-
-    public function testCreateSami()
-    {
-        $sami = Liberator::liberate($this->generator)
-            ->createSami($this->finder, array('title' => 'foo'));
-        $expected = new Sami($this->finder, array('title' => 'foo'));
-
-        $this->assertEquals($expected, $sami);
-    }
-
-    public function testPopErrorHandlers()
-    {
-        $handlerA = function () { return 'A'; };
-        $handlerB = function () { return 'B'; };
-        $handlerStack = array($handlerA, $handlerB);
-        Phunky::when($this->isolator)
-            ->set_error_handler(Phunky::anyParameters())
-            ->thenGetReturnByLambda(function ($handler) use (&$handlerStack) {
-                return array_pop($handlerStack);
-            });
-        $expected = array_reverse($handlerStack);
-
-        $this->assertSame(
-            $expected,
-            Liberator::liberate($this->generator)->popErrorHandlers()
-        );
-        $setVerification = Phunky::verify($this->isolator, Phunky::times(3))
-            ->set_error_handler($this->isInstanceOf('Closure'));
-        $restoreVerification = Phunky::verify($this->isolator, Phunky::times(6))
-            ->restore_error_handler();
-        Phunky::inOrder(
-            $setVerification,
-            $restoreVerification,
-            $restoreVerification,
-            $setVerification,
-            $restoreVerification,
-            $restoreVerification,
-            $setVerification,
-            $restoreVerification,
-            $restoreVerification
-        );
-    }
-
-    public function testPushErrorHandlers()
-    {
-        $handlerA = function () { return 'A'; };
-        $handlerB = function () { return 'B'; };
-        $handlerStack = array($handlerB, $handlerA);
-        Liberator::liberate($this->generator)->pushErrorHandlers($handlerStack);
-
-        Phunky::inOrder(
-            Phunky::verify($this->isolator)->set_error_handler(
-                $this->identicalTo($handlerA)
-            ),
-            Phunky::verify($this->isolator)->set_error_handler(
-                $this->identicalTo($handlerB)
-            )
-        );
+        $this->setExpectedException('RuntimeException', 'Unable to generate documentation: Error message.');
+        $this->subject->generate();
     }
 }
