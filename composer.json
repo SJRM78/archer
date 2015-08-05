@@ -36,7 +36,8 @@
     "require-dev": {
         "eloquent/liberator": "^2",
         "eloquent/phony": "dev-feature/default-to-full",
-        "phpunit/phpunit": "^4"
+        "phpunit/phpunit": "^4",
+        "sami/sami": "^3"
     },
     "suggest": {
         "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
