@@ -2,4 +2,4 @@
 .gitignore export-ignore
 .travis.* export-ignore
 /.archer/ export-ignore
-test export-ignore
+/test/ export-ignore
