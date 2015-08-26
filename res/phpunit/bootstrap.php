@@ -9,7 +9,7 @@ if (!defined('ARCHER_ROOT_PATH')) {
 }
 
 // Install the composer autoloader ...
-$autoloader = require_once ARCHER_ROOT_PATH . '/vendor/autoload.php';
+$autoloader = require ARCHER_ROOT_PATH . '/vendor/autoload.php';
 
 // Install Asplode if available
 if (is_callable('Eloquent\Asplode\Asplode::install')) {
