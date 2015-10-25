@@ -34,5 +34,5 @@ if ($token) {
 
 // Install composer dependencies ...
 $exitCode = 0;
-passthru('composer install --dev --no-progress --no-interaction --ansi ' . $composerFlags, $exitCode);
+passthru('composer install --dev --no-progress --no-interaction --ignore-platform-reqs --ansi ' . $composerFlags, $exitCode);
 exit($exitCode);
