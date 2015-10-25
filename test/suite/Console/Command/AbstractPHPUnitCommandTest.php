@@ -49,12 +49,15 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             ->thenReturn($this->application);
 
         Phunky::when($this->processFactory)
-            ->create(Phunky::anyParameters())
+            ->createFromArray(Phunky::anyParameters())
             ->thenReturn($this->process);
 
         Phunky::when($this->phpFinder)
-            ->find(Phunky::anyParameters())
+            ->find(false)
             ->thenReturn('/path/to/php');
+        Phunky::when($this->phpFinder)
+            ->findArguments()
+            ->thenReturn(array('--option-a', '--option-b'));
 
         Phunky::when($this->phpunitFinder)
             ->find(Phunky::anyParameters())
@@ -132,9 +135,11 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
         $shim = null;
 
         Phunky::inOrder(
-            Phunky::verify($this->phpFinder)->find(),
+            Phunky::verify($this->phpFinder)->findArguments(),
+            Phunky::verify($this->phpFinder)->find(false),
             Phunky::verify($this->phpunitFinder)->find(),
-            Phunky::verify($this->processFactory)->create('/path/to/php', '/path/to/phpunit', '--help'),
+            Phunky::verify($this->processFactory)
+                ->createFromArray(array('/path/to/php', '--option-a', '--option-b', '/path/to/phpunit', '--help')),
             Phunky::verify($this->process)->run($this->isInstanceOf('Closure'))
         );
 
@@ -178,7 +183,7 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             '--color',
         );
 
-        $result = $method->invoke($this->command, '/path/to/php', '/path/to/phpunit', $input);
+        $result = $method->invoke($this->command, array('/path/to/php'), '/path/to/phpunit', $input);
 
         $this->assertSame($expected, $result);
     }

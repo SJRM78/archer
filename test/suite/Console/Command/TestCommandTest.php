@@ -73,8 +73,11 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
             ->thenReturn($this->process);
 
         Phunky::when($this->phpFinder)
-            ->find(Phunky::anyParameters())
+            ->find(false)
             ->thenReturn('/path/to/php');
+        Phunky::when($this->phpFinder)
+            ->findArguments()
+            ->thenReturn(array('--option-a', '--option-b'));
 
         Phunky::when($this->phpunitFinder)
             ->find(Phunky::anyParameters())
@@ -159,7 +162,7 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
             $this->output
         );
         $expectedStdout = <<<'EOD'
-<info>Using PHP:</info> /path/to/php
+<info>Using PHP:</info> /path/to/php --option-a --option-b
 <info>Using PHPUnit:</info> /path/to/phpunit
 out
 out
@@ -175,7 +178,8 @@ EOD;
         $this->assertSame($expectedStdout, $this->stdOut);
         $this->assertSame($expectedStderr, $this->stdErr);
         Phunky::inOrder(
-            Phunky::verify($this->phpFinder)->find(),
+            Phunky::verify($this->phpFinder)->findArguments(),
+            Phunky::verify($this->phpFinder)->find(false),
             Phunky::verify($this->phpunitFinder)->find(),
             Phunky::verify($this->phpConfigurationReader)
                 ->read(Phunky::capture($actualPhpConfigurationPaths)),
@@ -204,6 +208,8 @@ EOD;
         ), $actualPhpunitConfigurationPaths);
         $this->assertSame(array(
             '/path/to/php',
+            '--option-a',
+            '--option-b',
             '--define',
             'baz=qux',
             '--define',

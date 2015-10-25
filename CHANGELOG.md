@@ -8,6 +8,7 @@
 - **[BC BREAK]** Removed support for Coveralls ([#110])
 - **[FIXED]** Fixed PHPUnit process isolation ([#101])
 - **[FIXED]** Fixed overzealous gitattributes patterns ([#104])
+- **[FIXED]** Fixed PHPUnit commands for HHVM on Travis ([#117])
 - **[NEW]** HHVM support actually works ([#77])
 - **[IMPROVED]** Support for PHPUnit as a dev dependency ([#102])
 - **[IMPROVED]** Faster Travis builds via new container infrastructure ([#109])
@@ -23,6 +24,7 @@
 [#109]: https://github.com/IcecaveStudios/archer/issues/109
 [#110]: https://github.com/IcecaveStudios/archer/issues/110
 [#111]: https://github.com/IcecaveStudios/archer/issues/111
+[#117]: https://github.com/IcecaveStudios/archer/issues/117
 
 ## 1.3.2 (2015-03-26)
 

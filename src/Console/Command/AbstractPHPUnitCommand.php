@@ -121,14 +121,16 @@ abstract class AbstractPHPUnitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $phpPath = $this->phpFinder()->find();
-        $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpPath));
+        $phpBinaryArguments = $this->phpBinaryArguments();
+        $phpBinaryString = implode(' ', $phpBinaryArguments);
+
+        $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpBinaryString));
         $phpunitPath = $this->phpunitFinder()->find();
         $output->writeln(sprintf('<info>Using PHPUnit:</info> %s', $phpunitPath));
 
         $process = $this->processFactory()->createFromArray(
             $this->generateArguments(
-                $phpPath,
+                $phpBinaryArguments,
                 $phpunitPath,
                 $this->rawArguments()
             )
@@ -140,9 +142,10 @@ abstract class AbstractPHPUnitCommand extends Command
 
     public function getHelp()
     {
-        $phpPath = $this->phpFinder()->find();
-        $phpunitPath = $this->phpunitFinder()->find();
-        $process = $this->processFactory()->create($phpPath, $phpunitPath, '--help');
+        $arguments = $this->phpBinaryArguments();
+        $arguments[] = $this->phpunitFinder->find();
+        $arguments[] = '--help';
+        $process = $this->processFactory->createFromArray($arguments);
 
         $help  = '<info>This command forwards all arguments to PHPUnit.</info>';
         $help .= PHP_EOL;
@@ -187,14 +190,14 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @param string        $phpPath
+     * @param array<string> $phpBinaryArguments
      * @param string        $phpunitPath
      * @param array<string> $phpunitArguments
      *
      * @return array<string>
      */
     protected function generateArguments(
-        $phpPath,
+        array $phpBinaryArguments,
         $phpunitPath,
         array $phpunitArguments
     ) {
@@ -221,7 +224,7 @@ abstract class AbstractPHPUnitCommand extends Command
         );
 
         return array_merge(
-            array($phpPath),
+            $phpBinaryArguments,
             $this->phpConfigurationArguments($this->readPHPConfiguration()),
             array(
                 $phpunitPath,
@@ -230,6 +233,14 @@ abstract class AbstractPHPUnitCommand extends Command
             ),
             $phpunitArguments
         );
+    }
+
+    protected function phpBinaryArguments()
+    {
+        $arguments = $this->phpFinder->findArguments();
+        array_unshift($arguments, $this->phpFinder->find(false));
+
+        return $arguments;
     }
 
     /**

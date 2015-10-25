@@ -136,14 +136,14 @@ class CoverageCommand extends AbstractPHPUnitCommand
     }
 
     /**
-     * @param string        $phpPath
+     * @param array<string> $phpBinaryArguments
      * @param string        $phpunitPath
      * @param array<string> $phpunitArguments
      *
      * @return array<string>
      */
     protected function generateArguments(
-        $phpPath,
+        array $phpBinaryArguments,
         $phpunitPath,
         array $phpunitArguments
     ) {
@@ -161,7 +161,7 @@ class CoverageCommand extends AbstractPHPUnitCommand
         );
 
         return parent::generateArguments(
-            $phpPath,
+            $phpBinaryArguments,
             $phpunitPath,
             $phpunitArguments
         );
