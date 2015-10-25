@@ -35,8 +35,8 @@
     },
     "require-dev": {
         "eloquent/liberator": "^2",
-        "eloquent/phony": "dev-feature/default-to-full",
-        "phpunit/phpunit": "^4",
+        "eloquent/phony": "^0.5",
+        "phpunit/phpunit": "^5",
         "sami/sami": "^3"
     },
     "suggest": {
