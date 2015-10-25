@@ -1,12 +1,12 @@
 
 
 Code Coverage Report:        
-  2015-10-25 22:48:47        
+  2015-10-25 23:31:00        
                              
  Summary:                    
   Classes: 86.49% (32/37)    
-  Methods: 96.61% (171/177)  
-  Lines:   94.96% (1149/1210)
+  Methods: 96.63% (172/178)  
+  Lines:   94.98% (1154/1215)
 
 \Icecave\Archer\Configuration::ComposerConfigurationReader
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 12/ 12)
@@ -17,7 +17,7 @@ Code Coverage Report:
 \Icecave\Archer\Console::Application
   Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 27/ 27)
 \Icecave\Archer\Console\Command::AbstractPHPUnitCommand
-  Methods: 100.00% (14/14)   Lines: 100.00% ( 88/ 88)
+  Methods: 100.00% (15/15)   Lines: 100.00% ( 93/ 93)
 \Icecave\Archer\Console\Command::CoverageCommand
   Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 54/ 54)
 \Icecave\Archer\Console\Command::DocumentationCommand
