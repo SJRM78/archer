@@ -130,6 +130,7 @@ abstract class AbstractPHPUnitCommand extends Command
 
         $process = $this->processFactory()->createFromArray(
             $this->generateArguments(
+                $output,
                 $phpBinaryArguments,
                 $phpunitPath,
                 $this->rawArguments()
@@ -190,13 +191,15 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @param array<string> $phpBinaryArguments
-     * @param string        $phpunitPath
-     * @param array<string> $phpunitArguments
+     * @param OutputInterface $output
+     * @param array<string>   $phpBinaryArguments
+     * @param string          $phpunitPath
+     * @param array<string>   $phpunitArguments
      *
      * @return array<string>
      */
     protected function generateArguments(
+        OutputInterface $output,
         array $phpBinaryArguments,
         $phpunitPath,
         array $phpunitArguments
@@ -205,6 +208,7 @@ abstract class AbstractPHPUnitCommand extends Command
             array_map(
                 function ($element) {
                     switch ($element) {
+                        case '--ansi':
                         case '--quiet':
                         case '-q':
                         case '--version':
@@ -213,8 +217,6 @@ abstract class AbstractPHPUnitCommand extends Command
                         case '--no-interaction':
                         case '-n':
                             return null;
-                        case '--ansi':
-                            return '--color';
                     }
 
                     return $element;
@@ -223,14 +225,22 @@ abstract class AbstractPHPUnitCommand extends Command
             )
         );
 
+        if ($output->isDecorated()) {
+            array_unshift($phpunitArguments, '--colors=always');
+        } else {
+            array_unshift($phpunitArguments, '--colors=never');
+        }
+
+        array_unshift(
+            $phpunitArguments,
+            $phpunitPath,
+            '--configuration',
+            $this->findPHPUnitConfiguration()
+        );
+
         return array_merge(
             $phpBinaryArguments,
             $this->phpConfigurationArguments($this->readPHPConfiguration()),
-            array(
-                $phpunitPath,
-                '--configuration',
-                $this->findPHPUnitConfiguration(),
-            ),
             $phpunitArguments
         );
     }

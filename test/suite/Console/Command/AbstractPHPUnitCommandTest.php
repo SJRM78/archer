@@ -148,6 +148,8 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateArgumentsFiltering()
     {
+        $output = Phunky::mock('Symfony\Component\Console\Output\OutputInterface');
+
         Phunky::when($this->command)
             ->phpConfigurationArguments()
             ->thenReturn(array());
@@ -180,10 +182,10 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             '/path/to/phpunit',
             '--configuration',
             '/path/to/config.xml',
-            '--color',
+            '--colors=never',
         );
 
-        $result = $method->invoke($this->command, array('/path/to/php'), '/path/to/phpunit', $input);
+        $result = $method->invoke($this->command, $output, array('/path/to/php'), '/path/to/phpunit', $input);
 
         $this->assertSame($expected, $result);
     }

@@ -9,6 +9,7 @@
 - **[FIXED]** Fixed PHPUnit process isolation ([#101])
 - **[FIXED]** Fixed overzealous gitattributes patterns ([#104])
 - **[FIXED]** Fixed PHPUnit commands for HHVM on Travis ([#117])
+- **[FIXED]** Fixed PHPUnit colored output ([#118])
 - **[NEW]** HHVM support actually works ([#77])
 - **[IMPROVED]** Support for PHPUnit as a dev dependency ([#102])
 - **[IMPROVED]** Faster Travis builds via new container infrastructure ([#109])
@@ -25,6 +26,7 @@
 [#110]: https://github.com/IcecaveStudios/archer/issues/110
 [#111]: https://github.com/IcecaveStudios/archer/issues/111
 [#117]: https://github.com/IcecaveStudios/archer/issues/117
+[#118]: https://github.com/IcecaveStudios/archer/issues/118
 
 ## 1.3.2 (2015-03-26)
 

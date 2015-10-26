@@ -121,6 +121,9 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->output)
             ->getErrorOutput(Phunky::anyParameters())
             ->thenReturn($this->errorOutput);
+        Phunky::when($this->output)
+            ->isDecorated()
+            ->thenReturn(true);
 
         Phunky::when($this->process)
             ->run(Phunky::anyParameters())
@@ -181,12 +184,12 @@ EOD;
             Phunky::verify($this->phpFinder)->findArguments(),
             Phunky::verify($this->phpFinder)->find(false),
             Phunky::verify($this->phpunitFinder)->find(),
-            Phunky::verify($this->phpConfigurationReader)
-                ->read(Phunky::capture($actualPhpConfigurationPaths)),
             Phunky::verify($this->configurationFileFinder)->find(
                 Phunky::capture($actualPhpunitConfigurationPaths),
                 './vendor/icecave/archer/res/phpunit/phpunit.xml'
             ),
+            Phunky::verify($this->phpConfigurationReader)
+                ->read(Phunky::capture($actualPhpConfigurationPaths)),
             Phunky::verify($this->processFactory)
                 ->createFromArray(Phunky::capture($actualArguments)),
             Phunky::verify($this->process)->setTimeout(null),
@@ -217,6 +220,7 @@ EOD;
             '/path/to/phpunit',
             '--configuration',
             '/path/to/phpunit.xml',
+            '--colors=always',
             'bar',
         ), $actualArguments);
     }
