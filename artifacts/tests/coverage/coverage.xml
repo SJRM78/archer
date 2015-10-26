@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1445815860">
-  <project timestamp="1445815860">
+<coverage generated="1445817688">
+  <project timestamp="1445817688">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -161,77 +161,83 @@
         <line num="136" type="stmt" count="3"/>
         <line num="137" type="stmt" count="3"/>
         <line num="138" type="stmt" count="3"/>
-        <line num="140" type="stmt" count="3"/>
-        <line num="143" type="method" name="getHelp" crap="2" count="1"/>
-        <line num="145" type="stmt" count="1"/>
+        <line num="139" type="stmt" count="3"/>
+        <line num="141" type="stmt" count="3"/>
+        <line num="144" type="method" name="getHelp" crap="2" count="1"/>
         <line num="146" type="stmt" count="1"/>
         <line num="147" type="stmt" count="1"/>
         <line num="148" type="stmt" count="1"/>
-        <line num="150" type="stmt" count="1"/>
+        <line num="149" type="stmt" count="1"/>
         <line num="151" type="stmt" count="1"/>
         <line num="152" type="stmt" count="1"/>
-        <line num="154" type="stmt" count="1"/>
-        <line num="156" type="stmt" count="1"/>
+        <line num="153" type="stmt" count="1"/>
+        <line num="155" type="stmt" count="1"/>
         <line num="157" type="stmt" count="1"/>
-        <line num="159" type="stmt" count="1"/>
+        <line num="158" type="stmt" count="1"/>
         <line num="160" type="stmt" count="1"/>
-        <line num="162" type="stmt" count="1"/>
-        <line num="171" type="method" name="passthru" crap="2" count="3"/>
-        <line num="173" type="stmt" count="3"/>
-        <line num="175" type="stmt" count="3"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="163" type="stmt" count="1"/>
+        <line num="172" type="method" name="passthru" crap="2" count="3"/>
+        <line num="174" type="stmt" count="3"/>
         <line num="176" type="stmt" count="3"/>
         <line num="177" type="stmt" count="3"/>
         <line num="178" type="stmt" count="3"/>
-        <line num="180" type="stmt" count="3"/>
+        <line num="179" type="stmt" count="3"/>
         <line num="181" type="stmt" count="3"/>
         <line num="182" type="stmt" count="3"/>
         <line num="183" type="stmt" count="3"/>
         <line num="184" type="stmt" count="3"/>
-        <line num="186" type="stmt" count="3"/>
-        <line num="188" type="stmt" count="3"/>
+        <line num="185" type="stmt" count="3"/>
+        <line num="187" type="stmt" count="3"/>
         <line num="189" type="stmt" count="3"/>
-        <line num="199" type="method" name="generateArguments" crap="9" count="5"/>
-        <line num="204" type="stmt" count="5"/>
-        <line num="205" type="stmt" count="5"/>
-        <line num="206" type="method" name="anonymous function" crap="9" count="5"/>
+        <line num="190" type="stmt" count="3"/>
+        <line num="201" type="method" name="generateArguments" crap="10" count="5"/>
+        <line num="207" type="stmt" count="5"/>
         <line num="208" type="stmt" count="5"/>
-        <line num="209" type="stmt" count="5"/>
-        <line num="210" type="stmt" count="5"/>
+        <line num="209" type="method" name="anonymous function" crap="9" count="5"/>
         <line num="211" type="stmt" count="5"/>
         <line num="212" type="stmt" count="5"/>
         <line num="213" type="stmt" count="5"/>
         <line num="214" type="stmt" count="5"/>
-        <line num="215" type="stmt" count="2"/>
+        <line num="215" type="stmt" count="5"/>
         <line num="216" type="stmt" count="5"/>
-        <line num="217" type="stmt" count="2"/>
-        <line num="220" type="stmt" count="3"/>
-        <line num="221" type="stmt" count="5"/>
+        <line num="217" type="stmt" count="5"/>
+        <line num="218" type="stmt" count="5"/>
+        <line num="219" type="stmt" count="2"/>
+        <line num="222" type="stmt" count="3"/>
         <line num="223" type="stmt" count="5"/>
-        <line num="224" type="stmt" count="5"/>
+        <line num="225" type="stmt" count="5"/>
         <line num="226" type="stmt" count="5"/>
-        <line num="227" type="stmt" count="5"/>
         <line num="228" type="stmt" count="5"/>
-        <line num="230" type="stmt" count="5"/>
-        <line num="231" type="stmt" count="5"/>
-        <line num="232" type="stmt" count="5"/>
-        <line num="233" type="stmt" count="5"/>
+        <line num="229" type="stmt" count="4"/>
+        <line num="230" type="stmt" count="4"/>
+        <line num="231" type="stmt" count="1"/>
+        <line num="234" type="stmt" count="5"/>
         <line num="235" type="stmt" count="5"/>
-        <line num="238" type="method" name="phpBinaryArguments" crap="1" count="4"/>
-        <line num="240" type="stmt" count="4"/>
-        <line num="241" type="stmt" count="4"/>
-        <line num="243" type="stmt" count="4"/>
-        <line num="251" type="method" name="phpConfigurationArguments" crap="2" count="5"/>
-        <line num="253" type="stmt" count="5"/>
-        <line num="254" type="stmt" count="5"/>
-        <line num="255" type="stmt" count="3"/>
-        <line num="256" type="stmt" count="3"/>
-        <line num="257" type="stmt" count="5"/>
-        <line num="259" type="stmt" count="5"/>
-        <line num="265" type="method" name="rawArguments" crap="1" count="3"/>
-        <line num="267" type="stmt" count="3"/>
-        <line num="268" type="stmt" count="3"/>
-        <line num="270" type="stmt" count="3"/>
-        <metrics loc="289" ncloc="229" classes="1" methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="103" coveredstatements="103" elements="118" coveredelements="118"/>
+        <line num="236" type="stmt" count="5"/>
+        <line num="237" type="stmt" count="5"/>
+        <line num="238" type="stmt" count="5"/>
+        <line num="239" type="stmt" count="5"/>
+        <line num="241" type="stmt" count="5"/>
+        <line num="242" type="stmt" count="5"/>
+        <line num="243" type="stmt" count="5"/>
+        <line num="245" type="stmt" count="5"/>
+        <line num="248" type="method" name="phpBinaryArguments" crap="1" count="4"/>
+        <line num="250" type="stmt" count="4"/>
+        <line num="251" type="stmt" count="4"/>
+        <line num="253" type="stmt" count="4"/>
+        <line num="261" type="method" name="phpConfigurationArguments" crap="2" count="5"/>
+        <line num="263" type="stmt" count="5"/>
+        <line num="264" type="stmt" count="5"/>
+        <line num="265" type="stmt" count="3"/>
+        <line num="266" type="stmt" count="3"/>
+        <line num="267" type="stmt" count="5"/>
+        <line num="269" type="stmt" count="5"/>
+        <line num="275" type="method" name="rawArguments" crap="1" count="3"/>
+        <line num="277" type="stmt" count="3"/>
+        <line num="278" type="stmt" count="3"/>
+        <line num="280" type="stmt" count="3"/>
+        <metrics loc="299" ncloc="238" classes="1" methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="109" coveredstatements="109" elements="124" coveredelements="124"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/CoverageCommand.php">
         <class name="CoverageCommand" namespace="Icecave\Archer\Console\Command">
@@ -291,20 +297,21 @@
         <line num="132" type="stmt" count="2"/>
         <line num="133" type="stmt" count="2"/>
         <line num="135" type="stmt" count="2"/>
-        <line num="145" type="method" name="generateArguments" crap="3" count="3"/>
-        <line num="150" type="stmt" count="3"/>
-        <line num="151" type="stmt" count="3"/>
-        <line num="152" type="method" name="anonymous function" crap="3" count="3"/>
-        <line num="154" type="stmt" count="3"/>
-        <line num="155" type="stmt" count="3"/>
-        <line num="156" type="stmt" count="1"/>
-        <line num="159" type="stmt" count="3"/>
+        <line num="146" type="method" name="generateArguments" crap="3" count="3"/>
+        <line num="152" type="stmt" count="3"/>
+        <line num="153" type="stmt" count="3"/>
+        <line num="154" type="method" name="anonymous function" crap="3" count="3"/>
+        <line num="156" type="stmt" count="3"/>
+        <line num="157" type="stmt" count="3"/>
+        <line num="158" type="stmt" count="1"/>
         <line num="161" type="stmt" count="3"/>
         <line num="163" type="stmt" count="3"/>
-        <line num="164" type="stmt" count="3"/>
         <line num="165" type="stmt" count="3"/>
+        <line num="166" type="stmt" count="3"/>
         <line num="167" type="stmt" count="3"/>
-        <metrics loc="171" ncloc="140" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="59" coveredstatements="59" elements="67" coveredelements="67"/>
+        <line num="168" type="stmt" count="3"/>
+        <line num="170" type="stmt" count="3"/>
+        <metrics loc="174" ncloc="142" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="60" elements="68" coveredelements="68"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/DocumentationCommand.php">
         <class name="DocumentationCommand" namespace="Icecave\Archer\Console\Command">
@@ -1656,6 +1663,6 @@
         <metrics loc="368" ncloc="267" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="128" coveredstatements="125" elements="145" coveredelements="141"/>
       </file>
     </package>
-    <metrics files="37" loc="4201" ncloc="3277" classes="37" methods="178" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1215" coveredstatements="1154" elements="1393" coveredelements="1326"/>
+    <metrics files="37" loc="4214" ncloc="3288" classes="37" methods="178" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1222" coveredstatements="1161" elements="1400" coveredelements="1333"/>
   </project>
 </coverage>
