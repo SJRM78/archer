@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z $ARCHER_TOKEN ]; then
-    phpunit --colors=always
+    vendor/bin/phpunit --colors=always
 else
     ARCHER_PUBLISH_VERSION=$TRAVIS_PHP_VERSION ./bin/archer travis:build --ansi
 fi
