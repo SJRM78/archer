@@ -247,10 +247,7 @@ abstract class AbstractPHPUnitCommand extends Command
 
     protected function phpBinaryArguments()
     {
-        $arguments = $this->phpFinder->findArguments();
-        array_unshift($arguments, $this->phpFinder->find(false));
-
-        return $arguments;
+        return array($this->phpFinder->find(false));
     }
 
     /**

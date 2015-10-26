@@ -55,9 +55,6 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
         Phunky::when($this->phpFinder)
             ->find(false)
             ->thenReturn('/path/to/php');
-        Phunky::when($this->phpFinder)
-            ->findArguments()
-            ->thenReturn(array('--option-a', '--option-b'));
 
         Phunky::when($this->phpunitFinder)
             ->find(Phunky::anyParameters())
@@ -135,11 +132,9 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
         $shim = null;
 
         Phunky::inOrder(
-            Phunky::verify($this->phpFinder)->findArguments(),
             Phunky::verify($this->phpFinder)->find(false),
             Phunky::verify($this->phpunitFinder)->find(),
-            Phunky::verify($this->processFactory)
-                ->createFromArray(array('/path/to/php', '--option-a', '--option-b', '/path/to/phpunit', '--help')),
+            Phunky::verify($this->processFactory)->createFromArray(array('/path/to/php', '/path/to/phpunit', '--help')),
             Phunky::verify($this->process)->run($this->isInstanceOf('Closure'))
         );
 
