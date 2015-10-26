@@ -13,4 +13,4 @@ install:
   - ./.archer/travis.install
 
 script:
-  - ./vendor/bin/archer travis:build
+  - ./vendor/bin/archer travis:build --ansi
