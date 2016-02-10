@@ -247,7 +247,13 @@ abstract class AbstractPHPUnitCommand extends Command
 
     protected function phpBinaryArguments()
     {
-        return array($this->phpFinder->find(false));
+        $php = $this->phpFinder->find(false);
+
+        if (false !== strpos($php, 'phpdbg')) {
+            return array($php, '-qrr');
+        }
+
+        return array($php);
     }
 
     /**
@@ -259,7 +265,7 @@ abstract class AbstractPHPUnitCommand extends Command
     {
         $arguments = array();
         foreach ($configuration as $key => $value) {
-            $arguments[] = '--define';
+            $arguments[] = '-d';
             $arguments[] = sprintf('%s=%s', $key, $value);
         }
 

@@ -280,9 +280,9 @@ EOD;
         ), $actualPhpunitConfigurationPaths);
         $this->assertSame(array(
             '/path/to/php',
-            '--define',
+            '-d',
             'baz=qux',
-            '--define',
+            '-d',
             'doom=splat',
             '/path/to/phpunit',
             '--configuration',
@@ -360,9 +360,9 @@ EOD;
         ), $actualPhpunitConfigurationPaths);
         $this->assertSame(array(
             '/path/to/php',
-            '--define',
+            '-d',
             'baz=qux',
-            '--define',
+            '-d',
             'doom=splat',
             '/path/to/phpunit',
             '--configuration',
