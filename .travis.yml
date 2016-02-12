@@ -1,7 +1,7 @@
 sudo: false
 language: php
 
-php: ["5.3", "5.4", "5.5", "7.0", "hhvm"]
+php: ["5.3", "5.4", "5.5", "5.6", "7.0", "hhvm"]
 
 matrix:
     allow_failures: [{"php": "7.0"}, {"php": "hhvm"}]
@@ -11,7 +11,7 @@ matrix:
     include:
         - php: "5.6"
           env:
-            - secure: "PBoNnK73ID8FUCR6nreUdqnBIyH1h9NjB9eVVSFllc1+WRAGAFBNMVNo4f/4x9Da84SbfBwpw7Z7l7Rtgo69kPcSzgnhtE7WeqHZ5lzdxW+0dgBnFA48KVz5BZ7clvMSeqDI06v96hbTBWcs6KNvemg5ZRegG6U7R4AmSWUmQlI="
+            - secure: "p/oUz8YI/1zK181nm8wY+hims2obPit4U6VU2sMqZ/i094vD4EwStx2ELaLLp8QrxNF4ScYr7PTqpZFfgZgHUh1n06IRx63P4YGWPt6LIVnc0gl9WuffVQXJt1wBysRjhQGWL07XTwhpFn6iCwamxEMgGGZba8ghB94RA+iMzLI="
 
 install:
   - ./.archer/travis.install
