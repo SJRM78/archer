@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1445819617">
-  <project timestamp="1445819617">
+<coverage generated="1455239198">
+  <project timestamp="1455239198">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -111,7 +111,7 @@
     <package name="Icecave\Archer\Console\Command">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/AbstractPHPUnitCommand.php">
         <class name="AbstractPHPUnitCommand" namespace="Icecave\Archer\Console\Command">
-          <metrics methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="91" coveredstatements="91" elements="106" coveredelements="106"/>
+          <metrics methods="15" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="94" coveredstatements="93" elements="109" coveredelements="107"/>
         </class>
         <line num="28" type="method" name="__construct" crap="7" count="47"/>
         <line num="37" type="stmt" count="47"/>
@@ -222,20 +222,23 @@
         <line num="242" type="stmt" count="5"/>
         <line num="243" type="stmt" count="5"/>
         <line num="245" type="stmt" count="5"/>
-        <line num="248" type="method" name="phpBinaryArguments" crap="1" count="4"/>
+        <line num="248" type="method" name="phpBinaryArguments" crap="2.06" count="4"/>
         <line num="250" type="stmt" count="4"/>
-        <line num="258" type="method" name="phpConfigurationArguments" crap="2" count="5"/>
-        <line num="260" type="stmt" count="5"/>
-        <line num="261" type="stmt" count="5"/>
-        <line num="262" type="stmt" count="3"/>
-        <line num="263" type="stmt" count="3"/>
-        <line num="264" type="stmt" count="5"/>
+        <line num="252" type="stmt" count="4"/>
+        <line num="253" type="stmt" count="0"/>
+        <line num="256" type="stmt" count="4"/>
+        <line num="264" type="method" name="phpConfigurationArguments" crap="2" count="5"/>
         <line num="266" type="stmt" count="5"/>
-        <line num="272" type="method" name="rawArguments" crap="1" count="3"/>
-        <line num="274" type="stmt" count="3"/>
-        <line num="275" type="stmt" count="3"/>
-        <line num="277" type="stmt" count="3"/>
-        <metrics loc="296" ncloc="235" classes="1" methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="107" coveredstatements="107" elements="122" coveredelements="122"/>
+        <line num="267" type="stmt" count="5"/>
+        <line num="268" type="stmt" count="3"/>
+        <line num="269" type="stmt" count="3"/>
+        <line num="270" type="stmt" count="5"/>
+        <line num="272" type="stmt" count="5"/>
+        <line num="278" type="method" name="rawArguments" crap="1" count="3"/>
+        <line num="280" type="stmt" count="3"/>
+        <line num="281" type="stmt" count="3"/>
+        <line num="283" type="stmt" count="3"/>
+        <metrics loc="302" ncloc="241" classes="1" methods="15" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="110" coveredstatements="109" elements="125" coveredelements="123"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/CoverageCommand.php">
         <class name="CoverageCommand" namespace="Icecave\Archer\Console\Command">
@@ -1661,6 +1664,6 @@
         <metrics loc="368" ncloc="267" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="128" coveredstatements="125" elements="145" coveredelements="141"/>
       </file>
     </package>
-    <metrics files="37" loc="4211" ncloc="3285" classes="37" methods="178" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1220" coveredstatements="1159" elements="1398" coveredelements="1331"/>
+    <metrics files="37" loc="4217" ncloc="3291" classes="37" methods="178" coveredmethods="171" conditionals="0" coveredconditionals="0" statements="1223" coveredstatements="1161" elements="1401" coveredelements="1332"/>
   </project>
 </coverage>
